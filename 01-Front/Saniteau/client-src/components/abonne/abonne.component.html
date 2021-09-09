@@ -1,0 +1,73 @@
+<div class="abonne-card">
+    <div class="action-icon" [ngStyle]="{'display': isEditMode ? 'none' : 'block'}">
+        <a href="javascript:void(0)" (click)="openConfirmDeleteDialog()"><mat-icon>delete</mat-icon></a>
+    </div>
+    <div class="action-icon" [ngStyle]="{'display': isEditMode ? 'none' : 'block'}">
+        <a href="javascript:void(0)" (click)="setEditMode(true)"><mat-icon>edit</mat-icon></a>
+    </div>
+
+    <img src="../../../wwwroot/img/img_avatar.png" alt="Abonne" style="width:100px">
+
+    <div class="abonne-container" [ngStyle]="{'display': isEditMode ? 'none' : 'block'}">
+
+        <div class="abonne-tarification">
+            <mat-chip-list aria-label="Fish selection">
+                <mat-chip  >{{Tarification[tarification]}}</mat-chip>
+            </mat-chip-list>
+        </div>
+
+        <h4>
+            <b><span>{{prenom}}</span>&nbsp;<span>{{nom}}</span></b>
+        </h4>
+        <p>
+            <span>{{numeroEtRue}}</span>
+            &nbsp;
+            <span class="abonne-uppercase">{{ville}}</span>
+            &nbsp;
+            <span class="abonne-uppercase">{{codePostal}}</span>
+        </p>
+    </div>
+    <div class="abonne-container" [ngStyle]="{'display': isEditMode ? 'block' : 'none'}">
+        <div class="abonne-tarification">
+            <mat-form-field appearance="fill">
+                <mat-label>Tarification</mat-label>
+                <mat-select [(ngModel)]="tarification">
+                    <mat-option *ngFor="let name of tarificationNames" [value]="name" ngDefaultControl>
+                        {{Tarification[name]}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+
+
+        <div>
+            <mat-form-field class="abonne-mat-form-field">
+                <mat-label>Prénom</mat-label>
+                <input matInput placeholder="Jean" [(ngModel)]="prenom">
+            </mat-form-field>
+            <mat-form-field class="abonne-mat-form-field">
+                <mat-label>Nom</mat-label>
+                <input matInput placeholder="Dupont" [(ngModel)]="nom">
+            </mat-form-field>
+        </div>
+        <div style="clear:both;"></div>
+        <mat-form-field class="abonne-mat-form-field">
+            <mat-label>Adresse</mat-label>
+            <input matInput placeholder="10 rue des petits pas" [(ngModel)]="numeroEtRue">
+        </mat-form-field>
+        <mat-form-field class="abonne-mat-form-field">
+            <mat-label>Ville</mat-label>
+            <input matInput placeholder="PARIS" [(ngModel)]="ville">
+        </mat-form-field>
+        <mat-form-field class="abonne-mat-form-field">
+            <mat-label>Code postal</mat-label>
+            <input matInput placeholder="75000" [(ngModel)]="codePostal">
+        </mat-form-field>
+        <div style="clear:both;"></div>
+        <div style="width:100%;text-align:center">
+            <button mat-raised-button color="primary" (click)="updateAbonne()" style="margin-right:10px;">Modifier</button>
+            <button mat-raised-button color="primary" (click)="setEditMode(false)" style="">Annuler</button>
+        </div>
+    </div>
+</div>
+<br/>

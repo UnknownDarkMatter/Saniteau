@@ -1,0 +1,7 @@
+.button-active {
+    background-color: rgb(131, 186, 222);
+}
+
+mat-nav-list{
+    width:180px;
+}

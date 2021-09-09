@@ -1,0 +1,66 @@
+
+<div class="main-page-card-title">
+    <h3 style="display: inline;">Création d'un abonné</h3>
+</div>
+<mat-card>
+    <div class="main-page-card-wrapper">
+        <mat-form-field>
+            <mat-label>Prénom</mat-label>
+            <input matInput placeholder="Jean" [(ngModel)]="prenom">
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Nom</mat-label>
+            <input matInput placeholder="Dupont" [(ngModel)]="nom">
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Adresse</mat-label>
+            <input matInput placeholder="10 rue des petits pas" [(ngModel)]="adresse">
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Ville</mat-label>
+            <input matInput placeholder="PARIS" [(ngModel)]="ville">
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Code postal</mat-label>
+            <input matInput placeholder="75000" [(ngModel)]="codepostal">
+        </mat-form-field>
+        <mat-form-field appearance="fill" class="select-list">
+            <mat-label>Tarification</mat-label>
+            <mat-select [(ngModel)]="tarification">
+                <mat-option *ngFor="let name of tarificationNames" [value]="name" ngDefaultControl>
+                    {{Tarification[name]}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+        <button mat-raised-button color="primary" (click)="creerAbonne()">Créer l'abonné</button>
+    </div>
+</mat-card>
+
+
+
+<div class="main-page-card-title">
+    <h3 style="display: inline;">Liste des abonnés</h3>
+</div>
+<mat-card>
+    <div class="main-page-card-wrapper">
+        <mat-form-field class="abonne-chip-list">
+            <mat-label>Requerche</mat-label>
+            <mat-chip-list #chipList aria-label="Recherche">
+                <mat-chip *ngFor="let critereRecherche of criteresRecherche" [selectable]="critereRechercheSelectable"
+                          [removable]="critereRechercheRemovable" (removed)="removeCritereRecherche(critereRecherche)">
+                    {{critereRecherche.filtre}}
+                    <mat-icon matChipRemove *ngIf="critereRechercheRemovable">cancel</mat-icon>
+                </mat-chip>
+                <input placeholder="Nouveau critère ..."
+                       [matChipInputFor]="chipList"
+                       [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                       [matChipInputAddOnBlur]="critereRechercheAddOnBlur"
+                       (matChipInputTokenEnd)="addCritereRecherche($event)">
+            </mat-chip-list>
+        </mat-form-field>
+
+        <abonne *ngFor="let abonne of abonnes; trackBy: trackByFn" [abonne]="abonne" (deleted)="onDeleted($event)" (updated)="onUpdated($event)"></abonne>
+    </div>
+</mat-card>
+
+

@@ -1,0 +1,13 @@
+<div mat-dialog-content>
+    <p>{{title}}</p>
+</div>
+<div mat-dialog-actions class="dialog-confirm-wrapper">
+    <button mat-button color="primary" (click)="confirm()">
+        <mat-icon>done_outline</mat-icon>
+        Oui
+    </button>
+    <button mat-raised-button color="primary" (click)="cancel()">
+        <mat-icon>cancel</mat-icon>
+        Non
+    </button>
+</div>

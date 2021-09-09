@@ -1,0 +1,5 @@
+<mat-nav-list fxLayout="column">
+    <span style="margin-left:auto;margin-right:auto;font-weight:bold;text-decoration: underline;">Délégation</span>
+    <button mat-button [routerLink]="['/delegation-accueil']" [routerLinkActive]="['button-active']" (click)="closeTopMenu()">Accueil</button>
+    <button mat-button [routerLink]="['/delegation-paye']" [routerLinkActive]="['button-active']" (click)="closeTopMenu()">Paye</button>
+</mat-nav-list>

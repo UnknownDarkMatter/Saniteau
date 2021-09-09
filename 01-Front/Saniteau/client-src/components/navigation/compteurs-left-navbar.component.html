@@ -1,0 +1,5 @@
+<mat-nav-list fxLayout="column">
+    <span style="margin-left:auto;margin-right:auto;font-weight:bold;text-decoration: underline;">Compteurs</span>
+    <button mat-button [routerLink]="['/compteurs-list']" [routerLinkActive]="['button-active']" (click)="closeTopMenu()">Liste</button>
+    <button mat-button [routerLink]="['/compteurs-releve']" [routerLinkActive]="['button-active']" (click)="closeTopMenu()">Relevés</button>
+</mat-nav-list>

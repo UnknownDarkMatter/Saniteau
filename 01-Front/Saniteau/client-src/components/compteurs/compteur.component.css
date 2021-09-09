@@ -1,0 +1,74 @@
+.compteur-card {
+    padding-bottom: 10px;
+    background: rgba(63,181,168,0.1);
+    border-radius: 15px;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    transition: 0.3s;
+/*    width: 600px;
+*/}
+    .compteur-card:hover {
+        box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+    }
+a.tool-icon {
+    /*    margin-left: 20px;
+    margin-bottom: auto;
+    position: relative;
+    top: -5px;
+*/
+    text-decoration: none;
+}
+
+    a.tool-icon:hover {
+        text-decoration: underline;
+    }
+
+img.tool-icon {
+    width: 30px;
+    height: 33px;
+}
+span.tool-icon {
+    margin-bottom: auto;
+    margin-top: auto;
+    margin-left:5px;
+}
+
+/*
+    https://developer.mozilla.org/fr/docs/Apprendre/CSS/CSS_layout/Responsive_Design
+*/
+
+@media screen and (min-width: 850px) {
+    .compteur-container-multiple-columns {
+        display: grid;
+        /*conteneur de grille avec 2 rangées, la premiere de 30% de l'espace restant et la deuxième 60% de l'espace restant*/
+        grid-template-columns: 150px 170px auto;
+        column-gap: 5%;
+    }
+    .compteur-chips {
+        height: 0px;
+        color: white;
+        display: flex;
+    }
+
+}
+@media screen and (max-width: 850px) {
+    .compteur-container-multiple-columns {
+        padding: 2px 16px;
+    }
+
+    .compteur-chips {
+        height: 0px;
+        color: white;
+        display: inline;
+    }
+}
+
+.compteur-container-single-column {
+    padding: 2px 16px;
+}
+
+
+.compteur-mat-chip-list {
+    width: 170px;
+    display: inline-block;
+    margin-bottom: auto;
+}

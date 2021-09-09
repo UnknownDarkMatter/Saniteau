@@ -1,0 +1,5 @@
+<mat-nav-list fxLayout="column">
+    <span style="margin-left:auto;margin-right:auto;font-weight:bold;text-decoration: underline;">Administration</span>
+    <button mat-button [routerLink]="['/admin-database']" [routerLinkActive]="['button-active']" (click)="closeTopMenu()">Données</button>
+    <button mat-button [routerLink]="['/admin-date']" [routerLinkActive]="['button-active']" (click)="closeTopMenu()">Date</button>
+</mat-nav-list>

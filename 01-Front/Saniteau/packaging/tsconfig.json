@@ -1,0 +1,27 @@
+{
+  "compilerOptions": {
+    "module": "ES2020",
+    "moduleResolution": "node",
+    "target": "es5",
+    "types": [ "node" ],
+    "typeRoots": [
+      "node_modules/@types"
+    ],
+    "outDir": "wwwroot/dist/",
+    "rootDir": "client-src/",
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "allowJs": true
+  },
+  "include": [
+    "client-src/**/*"
+  ],
+  "exclude": [
+    "node_modules",
+    "**/*.spec.ts"
+  ],
+  "typeRoots": [
+    "@typesCustom",
+    "node_modules/@types"
+  ]
+}

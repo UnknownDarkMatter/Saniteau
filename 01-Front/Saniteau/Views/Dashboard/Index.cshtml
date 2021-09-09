@@ -1,0 +1,20 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<app-root>Loading ...</app-root>
+
+
+
+@section Scripts {
+    <script src="~/js/jquery.js"></script>
+    <script src="~/js/jquery.dataTables.js"></script>
+    <script src="~/dist/vendor.bundle.js?dt=@(DateTime.Now.Ticks)"></script>
+    <script src="~/dist/app.bundle.js?dt=@(DateTime.Now.Ticks)"></script>
+}
+
+@section Styles{
+    <link href="~/css/indigo-pink.css" rel="stylesheet">
+    <link href="~/css/material-icons.css" rel="stylesheet">
+    <link href="~/css/jquery.dataTables.css" rel="stylesheet">
+}

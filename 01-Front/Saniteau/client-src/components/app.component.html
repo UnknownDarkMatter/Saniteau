@@ -1,0 +1,55 @@
+<!--Screen sizes
+Xs = max.width = 599px
+sm = min.width = 600px to max.width = 959px
+md = min.width = 960px to max.width = 1279px
+Lg = min.width = 1280px to max.width = 1919px
+Xl = min.width = 1920px to max.width = 5000px-->
+<mat-toolbar color="primary" class="navbar" style="width:100%;display:flex" id="app-mat-toolbar">
+    <div fxShow="true" fxHide.lt-md="true">
+        <button mat-button [routerLink]="['dashboard']" [routerLinkActive]="['button-active']">Saniteau</button>
+        <button mat-button [routerLink]="[{ outlets: { leftnavbaroutlet: ['admin-left-navbar'] } }]" [routerLinkActive]="['button-active']" (click)="showLeftMenu()">Administration</button>
+        <button mat-button [routerLink]="[{ outlets: { leftnavbaroutlet: ['abonne-left-navbar'] } }]" [routerLinkActive]="['button-active']" (click)="showLeftMenu()">Abonnés</button>
+        <button mat-button [routerLink]="[{ outlets: { leftnavbaroutlet: ['compteurs-left-navbar'] } }]" [routerLinkActive]="['button-active']" (click)="showLeftMenu()">Compteurs</button>
+        <button mat-button [routerLink]="[{ outlets: { leftnavbaroutlet: ['delegation-left-navbar'] } }]" [routerLinkActive]="['button-active']" (click)="showLeftMenu()">Délégation</button>
+    </div>
+    <div fxShow="true" fxHide.gt-sm="true">
+        <button mat-icon-button (click)="toggleTopMenu()">
+            <mat-icon>menu</mat-icon>
+        </button>
+        <button mat-button [routerLink]="['dashboard']" [routerLinkActive]="['button-active']">Saniteau</button>
+    </div>
+    <div style="flex-grow:1"></div>
+    <button mat-button (click)="logout()" [ngStyle]="{'display': appService.isLoggedIn ?'flex':'none'}">
+        <mat-icon>assignment_ind</mat-icon>
+        <span>&nbsp;Logout</span>
+    </button>
+</mat-toolbar>
+<mat-sidenav-container fxFlexFill id="app-mat-sidenav-container">
+    <mat-sidenav [opened]="appService.topMenuIsShowing" fxLayout="column" mode="side" fxShow="true" fxHide.gt-sm="true">
+        <mat-nav-list fxLayout="column">
+            <button mat-button [routerLink]="[{ outlets: { leftnavbaroutlet: ['admin-left-navbar'] } }]" [routerLinkActive]="['fx-button-active']" (click)="showLeftMenu()">Administration</button>
+            <button mat-button [routerLink]="[{ outlets: { leftnavbaroutlet: ['abonne-left-navbar'] } }]" [routerLinkActive]="['fx-button-active']" (click)="showLeftMenu()">Abonnés</button>
+            <button mat-button [routerLink]="[{ outlets: { leftnavbaroutlet: ['compteurs-left-navbar'] } }]" [routerLinkActive]="['fx-button-active']" (click)="showLeftMenu()">Compteurs</button>
+            <button mat-button [routerLink]="[{ outlets: { leftnavbaroutlet: ['delegation-left-navbar'] } }]" [routerLinkActive]="['fx-button-active']" (click)="showLeftMenu()">Délégation</button>
+        </mat-nav-list>
+    </mat-sidenav>
+    <mat-sidenav-content fxFlexFill id="app-sidenav-content">
+        <div class="left-nav-bar">
+            <div [ngStyle]="{'display':leftMenuIsShowing ? 'none' : 'block' }">
+                <button mat-icon-button style="margin-left:auto;margin-right:auto;display: block" (click)="toggleLeftMenu()">
+                    <mat-icon style="margin-left: auto; margin-right: auto; display: block">list</mat-icon>
+                </button>
+            </div>
+            <div [ngStyle]="{'display':leftMenuIsShowing ? 'block' : 'none' }">
+                <button mat-icon-button style="margin-left:auto;margin-right:auto;display: block" (click)="toggleLeftMenu()">
+                    <mat-icon style="margin-left: auto; margin-right: auto; display: block">close</mat-icon>
+                </button>
+                <div style="clear:both"></div>
+                <router-outlet name="leftnavbaroutlet"></router-outlet>
+            </div>
+        </div>
+        <div class="main-page">
+            <router-outlet></router-outlet>
+        </div>
+    </mat-sidenav-content>
+</mat-sidenav-container>

@@ -1,0 +1,70 @@
+mat-card {
+    height: auto;
+    min-width: 90%;
+    padding-top: 40px !important;
+}
+
+.main-page-card-wrapper {
+    position: relative;
+    /*    top: -90px;
+    padding-top: 110px;
+*/ padding-left: 20px;
+    padding-right: 20px;
+    padding-bottom: 10px;
+    overflow-x: auto;
+}
+
+.main-page-card-title {
+    position: relative;
+    z-index: 99;
+    top: 20px;
+    left: 20px;
+    border: solid lightgray 1px;
+    border-radius: 5px;
+    padding: 10px;
+    width: 300px;
+    height: 21px;
+    background-color: white;
+    box-shadow: 3px 3px 1px 1px rgba(0, 0, 255, .2);
+}
+.lancer-facturation-wrapper {
+    display: flex;
+}
+
+.img-facturation {
+    width: 200px;
+}
+.button-lancer-facturation {
+    margin-left: 30px;
+    margin-top: auto;
+    margin-bottom: auto;
+    display: block;
+}
+.facturation-wrapper{
+    margin-top:30px;
+}
+.abonne-campagne-content {
+    margin-top: 20px;
+}
+
+.facturation-ligne {
+    margin-bottom: 20px;
+    background-color: #3c91ca1a !important;
+}
+
+@media screen and (min-width: 850px) {
+    .facturations-list {
+        display: grid;
+        grid-template-columns: 1fr auto auto;
+    }
+}
+.facturations-list{
+    padding-left:10px;
+    border-radius:5px;
+}
+.odd {
+    background-color: rgb(120, 179, 218) !important;
+}
+.even {
+    background-color: rgb(185, 216, 236) !important;
+}

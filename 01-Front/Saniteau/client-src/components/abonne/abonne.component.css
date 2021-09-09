@@ -1,0 +1,29 @@
+.action-icon {
+    float: right;
+    margin:10px;
+}
+.abonne-card {
+    padding-bottom: 10px;
+    background: rgba(63,181,168,0.1);
+    border-radius: 15px;
+    box-shadow: 3px 3px 1px 1px rgba(0, 0, 255, .2);
+    transition: 0.3s;
+}
+    .abonne-card:hover {
+        box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+    }
+
+.abonne-tarification {
+    position: relative;
+    top: -70px;
+    left: 150px;
+    height: 0px;
+    color:white;
+}
+.abonne-uppercase {
+    text-transform: uppercase;
+}
+
+.abonne-mat-form-field{
+    padding:10px;
+}

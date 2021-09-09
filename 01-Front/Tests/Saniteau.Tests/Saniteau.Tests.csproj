@@ -1,0 +1,33 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="3.1.11" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="5.0.0" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.8.3" />
+    <PackageReference Include="NFluent" Version="2.7.0" />
+    <PackageReference Include="NUnit" Version="3.12.0" />
+    <PackageReference Include="NUnit3TestAdapter" Version="3.17.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\02-Compteurs\Saniteau.Compteurs.Application\Saniteau.Compteurs.Application.csproj" />
+    <ProjectReference Include="..\..\..\02-Compteurs\Saniteau.Compteurs.Contract\Saniteau.Compteurs.Contract.csproj" />
+    <ProjectReference Include="..\..\..\02-Compteurs\Saniteau.Compteurs.Repository\Saniteau.Compteurs.Repository.csproj" />
+    <ProjectReference Include="..\..\..\03-Releves\Saniteau.Releves.Application\Saniteau.Releves.Application.csproj" />
+    <ProjectReference Include="..\..\..\03-Releves\Saniteau.Releves.Contract\Saniteau.Releves.Contract.csproj" />
+    <ProjectReference Include="..\..\..\03-Releves\Saniteau.Releves.Repository\Saniteau.Releves.Repository.csproj" />
+    <ProjectReference Include="..\..\..\04-Facturation\Saniteau.Facturation.Application\Saniteau.Facturation.Application.csproj" />
+    <ProjectReference Include="..\..\..\04-Facturation\Saniteau.Facturation.Contract\Saniteau.Facturation.Contract.csproj" />
+    <ProjectReference Include="..\..\..\04-Facturation\Saniteau.Facturation.Repository\Saniteau.Facturation.Repository.csproj" />
+    <ProjectReference Include="..\..\..\05-DSP\Saniteau.DSP.Application\Saniteau.DSP.Application.csproj" />
+    <ProjectReference Include="..\..\..\05-DSP\Saniteau.DSP.Contract\Saniteau.DSP.Contract.csproj" />
+    <ProjectReference Include="..\..\..\05-DSP\Saniteau.DSP.Repository\Saniteau.DSP.Repository.csproj" />
+    <ProjectReference Include="..\..\..\07-Infrastructure\Saniteau.Infrastructure.DataContext\Saniteau.Infrastructure.DataContext.csproj" />
+    <ProjectReference Include="..\..\..\08-Common\Saniteau.Common\Saniteau.Common.csproj" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,29 @@
+<div mat-dialog-content class="mat-dialog-content">
+    <h3>Authentification</h3>
+</div>
+<div mat-dialog-actions class="dialog-confirm-wrapper">
+    <div>
+        <mat-form-field>
+            <mat-label>Login</mat-label>
+            <input matInput placeholder="Jean" [(ngModel)]="userName" (keypress)="onKeypressEvent($event)">
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Password</mat-label>
+            <input matInput placeholder="Dupont" [(ngModel)]="password" (keypress)="onKeypressEvent($event)">
+        </mat-form-field>
+    </div>
+    <div style="width:100%;display:flex">
+        <button mat-raised-button color="primary" (click)="login()" style="margin-left:auto" [ngStyle]="{'margin-right': showSpinner ? '5px' : 'auto'}">
+            <mat-icon>lock_open</mat-icon>
+            Login
+        </button>
+        <mat-spinner [diameter]="30" style="margin-left:5px;margin-right:auto;" [ngStyle]="{'display': showSpinner ? 'block' : 'none'}"></mat-spinner>
+    </div>
+    <div class="text-danger">{{errorMessage}}</div>
+    <div class="link-wrapper">
+        <a class="link" color="primary" (click)="creerAccount()">
+            <mat-icon>person_add</mat-icon>
+            Créer un compte
+        </a>
+    </div>
+</div>

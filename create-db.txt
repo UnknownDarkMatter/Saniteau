@@ -1,0 +1,14 @@
+
+Dans Visual Studio, définir comme projet de démarrage Saniteau.Infrastructure.DataContext
+Ouvrir la "console du gestionnaire de package" qui se trouve dans le menu "Affichage -> Autres fenêtres"
+Dans la console définir comme projet par défaut Saniteau.Infrastructure.DataContext
+Executer la commande "Add-Migration CreateInitialDb" où "CreateInitialDb" est le nom de la migration
+	celacrée une classe "public partial class CreateInitialDb : Migration"
+
+Pour la première migration exécuter la commande "script-migration"
+Pour les migrationssuivantes executer la commande "script-migration -From [NomDeLADerniereMigrationDans __EFMigrationsHistory]
+vérifier le code e=puis lancer la commande script-migration pour transformer la migration en code SQL
+penser à ajouter des IF dans le code SQL de sorte à le rendre jouable plusieurs fois
+penser à mettre le code SQL dans une transaction pour avoir unétat connu de la baseen cas de plantage
+
+pour générer unscript de rollback : script-migration -From -To 

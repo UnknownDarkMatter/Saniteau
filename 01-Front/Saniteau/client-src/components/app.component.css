@@ -1,0 +1,71 @@
+html {
+    margin: 0;
+    height: 100%;
+}
+body {
+    overflow-y: hidden;
+    font-family: Arial;
+    margin: 0;
+    height: 100%;
+}
+button {
+    text-align: left !important;
+}
+
+mat-toolbar .button-active {
+    background-color: rgb(98, 113, 200);
+}
+
+.fx-button-active {
+    background-color: rgb(205, 226, 241);
+}
+/*debut-2*/
+/*#app-sidenav-content{
+    display:grid;
+    grid-template-columns: auto 1fr;
+}
+*//*fin-2*/
+/*debut-1*/
+/*
+#app-content {
+    margin-top: 50px;
+    margin-left: 50px;
+    margin-right: 50px;
+    height: 100%;
+    width:100%;
+    overflow-y: visible;
+    display:inline-block;
+}
+app-root {
+    height: 100%;
+    width:100%;
+    overflow-y: visible;
+    display:inline-block;
+}
+    #app-content mat-toolbar {
+        border-top-left-radius: 10px;
+        border-top-right-radius: 10px;
+    }
+#app-sidenav-content {
+    display: grid;
+    grid-template-columns: auto 1fr;
+}*/
+/*fin-1*/
+.left-nav-bar {
+    float: left;
+    height: 100%;
+    background-color: rgb(60, 145, 202);
+    color: white;
+    overflow-y: hidden;
+}
+.main-page {
+    overflow-x: hidden;
+    height: 90%;
+    width: auto;
+    padding-left: 20px;
+    padding-right: 20px;
+    /*#3c91ca #3fb5a8  #3f51b5 53°  https://cssgradient.io/ */
+    background: rgb(60,145,202);
+    background: linear-gradient(53deg, rgba(60,145,202,1) 0%, rgba(63,181,168,0.9837068616509104) 50%, rgba(63,81,181,1) 100%);
+}
+

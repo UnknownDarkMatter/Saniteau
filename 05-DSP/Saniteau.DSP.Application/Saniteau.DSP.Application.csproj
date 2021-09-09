@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\08-Common\Saniteau.Common\Saniteau.Common.csproj" />
+    <ProjectReference Include="..\Saniteau.DSP.Contract\Saniteau.DSP.Contract.csproj" />
+    <ProjectReference Include="..\Saniteau.DSP.Domain\Saniteau.DSP.Domain.csproj" />
+  </ItemGroup>
+
+</Project>

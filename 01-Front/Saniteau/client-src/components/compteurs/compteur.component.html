@@ -1,0 +1,58 @@
+<div class="compteur-card">
+    <div class="action-icon" [ngStyle]="{'display': isEditMode ? 'none' : 'block'}">
+        <a href="javascript:void(0)" (click)="openConfirmDeleteDialog()"><mat-icon>delete</mat-icon></a>
+    </div>
+    <div class="action-icon" [ngStyle]="{'display': isEditMode ? 'none' : 'block'}">
+        <a href="javascript:void(0)" (click)="setEditMode(true)"><mat-icon>edit</mat-icon></a>
+    </div>
+    <div class="action-icon" [ngStyle]="{'display': isEditMode ? 'none' : 'block'}">
+        <a href="javascript:void(0)" class="tool-icon" (click)="openCompteurAppairage()" style="display:flex">
+            <img src="../../../wwwroot/img/tool.png" class="tool-icon" alt="compteur">
+            <span class="tool-icon">Appairage</span>
+        </a>
+    </div>
+
+    <div [ngStyle]="{'display': isEditMode ? 'none' : 'block'}">
+        <div class="compteur-container-multiple-columns" >
+            <img src="../../../wwwroot/img/compteur.png" alt="compteur" style="width:100px">
+            <div class="compteur-chips">
+                <mat-chip-list aria-label="Fish selection" class="compteur-mat-chip-list">
+                    <mat-chip [ngStyle]="{'display': compteurEstPose ? 'block' : 'none'}">Compteur posé</mat-chip>
+                    <mat-chip [ngStyle]="{'display': compteurEstPose ? 'none' : 'block'}">Compteur non posé</mat-chip>
+                    <mat-chip [ngStyle]="{'display': compteurEstAppaire ? 'block' : 'none'}">Compteur appairé</mat-chip>
+                    <mat-chip [ngStyle]="{'display': compteurEstAppaire ? 'none' : 'block'}">Compteur non appairé</mat-chip>
+                </mat-chip-list>
+            </div>
+        </div>
+        <div class="compteur-container-single-column">
+            <h4>
+                <b><span>{{numeroCompteur}}</span></b>
+            </h4>
+        </div>
+    </div>
+
+    <div [ngStyle]="{'display': isEditMode ? 'block' : 'none'}">
+        <div class="compteur-container-multiple-columns">
+            <img src="../../../wwwroot/img/compteur.png" alt="compteur" style="width:100px">
+            <div class="compteur-chips">
+                <mat-chip-list aria-label="Fish selection">
+                    <mat-chip [ngStyle]="{'display': compteurEstPose ? 'block' : 'none'}">Compteur posé</mat-chip>
+                    <mat-chip [ngStyle]="{'display': compteurEstPose ? 'none' : 'block'}">Compteur non posé</mat-chip>
+                    <mat-chip [ngStyle]="{'display': compteurEstAppaire ? 'block' : 'none'}">Compteur appairé</mat-chip>
+                    <mat-chip [ngStyle]="{'display': compteurEstAppaire ? 'none' : 'block'}">Compteur non appairé</mat-chip>
+                </mat-chip-list>
+            </div>
+        </div>
+        <div  class="compteur-container-single-column">
+            <h4>
+                <b><span>{{numeroCompteur}}</span></b>
+            </h4>
+            <div style="clear:both;"></div>
+            <div style="width:100%;text-align:center">
+                <button mat-raised-button color="primary" (click)="updateCompteur()" style="margin-right:10px;">Modifier</button>
+                <button mat-raised-button color="primary" (click)="setEditMode(false)" style="">Annuler</button>
+            </div>
+        </div>
+    </div>
+</div>
+<br />

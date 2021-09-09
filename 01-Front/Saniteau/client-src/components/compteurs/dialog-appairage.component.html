@@ -1,0 +1,82 @@
+<div class="dialog-appairage-wrapper">
+    <div style="width:100%">
+        <h3 class="appairage-title">Appairage d'un compteur</h3>
+        <a href="javascript:void(0)" (click)="close()" class="close-button"><mat-icon>close</mat-icon></a>
+    </div>
+    <mat-vertical-stepper [linear]="true" #stepper [selectedIndex]="0">
+        <mat-step [stepControl]="poseCompteurFormGroup">
+            <form [formGroup]="poseCompteurFormGroup">
+                <ng-template matStepLabel>Pose du compteur</ng-template>
+                <mat-chip-list aria-label="Fish selection" class="compteur-mat-chip-list">
+                    <mat-chip [ngStyle]="{'display': compteur.compteurEstPose ? 'block' : 'none'}">Compteur posé</mat-chip>
+                    <mat-chip [ngStyle]="{'display': compteur.compteurEstPose ? 'none' : 'block'}">Compteur non posé</mat-chip>
+                </mat-chip-list>
+                <input matInput formControlName="poseCompteurCtrl" required style="display:none">
+                <mat-error *ngIf="poseCompteurFormGroup.invalid">Veuillez poser le compteur</mat-error>
+                <div>
+                    <button mat-button (click)="poserCompteur()" [disabled]="compteur.compteurEstPose">Poser le compteur</button>
+                    <button mat-button (click)="retirerCompteur()" [disabled]="!compteur.compteurEstPose">Retirer le compteur</button>
+                    <button mat-button matStepperNext>Suivant</button>
+                </div>
+            </form>
+        </mat-step>
+        <mat-step [stepControl]="associePDLFormGroup">
+            <form [formGroup]="associePDLFormGroup">
+                <ng-template matStepLabel>Association d'un abonné</ng-template>
+                <mat-form-field class="appairage-mat-form-field">
+                    <mat-label>Abonné</mat-label>
+                    <input matInput placeholder="Jean Dupont" formControlName="myCreateAbonneControl" required [matAutocomplete]="auto" [matChipInputFor]="newAbonneChipList" id="myAssociePDLCtrl">
+                    <mat-chip-list #newAbonneChipList>
+                        <mat-chip *ngFor="let abonne of abonnesFilteredForCreation"
+                                  [selectable]="chipsSelectedForCreationSelectable"
+                                  [removable]="chipsSelectedForCreationRemovable"
+                                  (removed)="removeChipsSelectedForCreation(abonne)">
+                            <mat-icon matChipRemove *ngIf="chipsSelectedForCreationRemovable">cancel</mat-icon>
+                            <span style="margin-left:10px;">{{getDisplayName(abonne)}}</span>
+                        </mat-chip>
+                    </mat-chip-list>
+                    <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" (optionSelected)="onSelectedAbonneForCreation($event)" >
+                        <mat-option *ngFor="let abonneSansCompteur of abonnesSansCompteurList | async" [value]="getDisplayName(abonneSansCompteur)">
+                            {{getDisplayName(abonneSansCompteur)}}
+                        </mat-option>
+                    </mat-autocomplete>
+                </mat-form-field>
+                <input matInput formControlName="associeAdressePDLControl" required style="display:none">
+                <mat-error *ngIf="associePDLFormGroup.invalid">Veuillez associer l'abonné</mat-error>
+                <div>
+                    <button mat-button (click)="associeAbonnePDL()"  [disabled]="isAdressePDLCree">Associer</button>
+                    <button mat-button (click)="dissocieAbonnePDL()"  [disabled]="!isAdressePDLCree">Dissocier</button>
+                    <button mat-button matStepperPrevious>Retour</button>
+                    <button mat-button matStepperNext>Suivant</button>
+                </div>
+            </form>
+        </mat-step>
+        <mat-step [stepControl]="appaireCompteurFormGroup">
+            <form [formGroup]="appaireCompteurFormGroup">
+                <ng-template matStepLabel>Apparaige du compteur</ng-template>
+                <mat-chip-list aria-label="Fish selection" class="compteur-mat-chip-list">
+                    <mat-chip [ngStyle]="{'display': compteur.compteurEstAppaire ? 'block' : 'none'}">Compteur appairé</mat-chip>
+                    <mat-chip [ngStyle]="{'display': compteur.compteurEstAppaire ? 'none' : 'block'}">Compteur non appairé</mat-chip>
+                </mat-chip-list>
+                <input matInput formControlName="appaireCompteurCtrl" required style="display:none">
+                <mat-error *ngIf="appaireCompteurFormGroup.invalid">Veuillez appairer le compteur</mat-error>
+                <div>
+                    <button mat-button (click)="appairerCompteur()" [disabled]="compteur.compteurEstAppaire">Appairer</button>
+                    <button mat-button (click)="desappairerCompteur()" [disabled]="!compteur.compteurEstAppaire">Désappairer</button>
+                    <button mat-button matStepperPrevious>Retour</button>
+                    <button mat-button matStepperNext>Suivant</button>
+                </div>
+            </form>
+        </mat-step>
+        <mat-step>
+            <ng-template matStepLabel>Terminé</ng-template>
+            <div style="display:flex">
+                <mat-icon style="color:green;margin-bottom:auto;margin-top:auto">check</mat-icon>
+                <span style="margin-left:10px;display:block;margin-bottom:auto;margin-top:auto">Le compteur est posé et appairé</span>
+            </div>
+            <div>
+                <button mat-button matStepperPrevious>Retour</button>
+            </div>
+        </mat-step>
+    </mat-vertical-stepper>
+</div>

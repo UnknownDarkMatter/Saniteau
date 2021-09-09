@@ -1,0 +1,42 @@
+
+<form>
+    <div class="main-page-card-title">
+        <h3 style="display: inline;">Création d'un compteur</h3>
+    </div>
+    <mat-card>
+        <div class="main-page-card-wrapper">
+            <mat-form-field class="compteur-mat-form-field">
+                <mat-label>Nom du compteur</mat-label>
+                <input matInput placeholder="Compteur de Jean Dupont" [(ngModel)]="nomCompteurCree" name="nomCompteurCree">
+            </mat-form-field>
+            <div style="clear:both;"></div>
+            <button mat-raised-button color="primary" (click)="creerCompteur()">Créer</button>
+        </div>
+    </mat-card>
+
+    <div class="main-page-card-title">
+        <h3 style="display: inline;">Liste des compteurs</h3>
+    </div>
+    <mat-card>
+        <div class="main-page-card-wrapper">
+            <mat-form-field class="compteur-chip-list">
+                <mat-label>Requerche</mat-label>
+                <mat-chip-list #chipList aria-label="Recherche">
+                    <mat-chip *ngFor="let critereRecherche of criteresRecherche" [selectable]="critereRechercheSelectable"
+                              [removable]="critereRechercheRemovable" (removed)="removeCritereRecherche(critereRecherche)">
+                        {{critereRecherche.filtre}}
+                        <mat-icon matChipRemove *ngIf="critereRechercheRemovable">cancel</mat-icon>
+                    </mat-chip>
+                    <input placeholder="Nouveau critère ..."
+                           [matChipInputFor]="chipList"
+                           [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                           [matChipInputAddOnBlur]="critereRechercheAddOnBlur"
+                           (matChipInputTokenEnd)="addCritereRecherche($event)">
+                </mat-chip-list>
+            </mat-form-field>
+
+            <compteur *ngFor="let compteur of compteurs; trackBy: trackByFn" [compteur]="compteur" (deleted)="onDeleted($event)" (updated)="onUpdated($event)"></compteur>
+        </div>
+    </mat-card>
+
+</form>

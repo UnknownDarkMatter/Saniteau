@@ -1,0 +1,39 @@
+.dialog-appairage-wrapper {
+    text-align: center !important;
+    display: block !important;
+    overflow: visible !important;
+}
+
+.mat-stepper-vertical {
+    margin-top: 8px;
+}
+
+.mat-form-field {
+    margin-top: 16px;
+}
+.appairage-title {
+    border: solid lightgray 1px;
+    border-radius: 5px;
+    padding-bottom: 10px;
+    padding-top: 10px;
+    height: 21px;
+    width: 270px;
+    margin-left: auto;
+    margin-right: auto;
+    background-color: white;
+    box-shadow: 3px 3px 1px 1px rgba(0, 0, 255, .2);
+}
+
+.close-button {
+    float: right;
+    position: relative;
+    top: -90px;
+}
+.appairage-mat-form-field{
+    margin-left:0px !important;
+    display:block !important;
+}
+
+/*.mat-form-field-underline {
+    display: none !important;
+}*/

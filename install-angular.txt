@@ -1,0 +1,365 @@
+--------------------------------------------------------------------------------------------------------------------------------------
+			Installation de angular avec material from scratch dans un projet MVC.Net Core
+--------------------------------------------------------------------------------------------------------------------------------------
+ne pas utiliser angularcli pour créer le projet car on a besoin de passer par webpack de sorte à inclure babel
+on va utiliser webpack pour transpiler le typescript
+babel assurera la compatilité avec les navigateurs plus anciens 
+
+--------------------------------------------------------------------------------------------------------------------------------------
+			Installer Node.js
+				permet de lancer la commande npm dans un prompt DOS
+--------------------------------------------------------------------------------------------------------------------------------------
+
+
+--------------------------------------------------------------------------------------------------------------------------------------
+			Fermer Visual Studio
+				Visual Stodio peut enpecher des renommaghes de fichiers dans le répertoire node_modules
+--------------------------------------------------------------------------------------------------------------------------------------
+
+
+--------------------------------------------------------------------------------------------------------------------------------------
+			Créer un package.json vide
+				La commande suivant crér un package.json vierge
+--------------------------------------------------------------------------------------------------------------------------------------
+ouvrir prompt DOS et faire un cd là où se trouve le csproj du projet MVC
+pas besoin de l'élever enmode administrateur
+	>cd D:\_DATA\Informatique\_DEV\VS\Web\App.Net Core\Saniteau\01-Front\Saniteau
+
+The above command will create a package.json in your project root. I am using a --y to initialize it with default options
+	>npm init -y
+
+
+--------------------------------------------------------------------------------------------------------------------------------------
+			Créer une tache build
+				Dans visual studio la fenêtre "Explorateur de taches" quise trouve dans le menu "Affichage" -> "Autres fenêtres"
+				contiendra unetache "build" qui lancera webpack et permettra de transpiler le typescript en javascript de sorte à créer 
+				un fichier "dist/app.bundle.js" à partir du fichier "client-src/app.ts"
+--------------------------------------------------------------------------------------------------------------------------------------
+   "scripts": {
+     "build": "webpack"
+   },
+il est possible aussi de supprimer le "main"
+
+
+--------------------------------------------------------------------------------------------------------------------------------------
+			Installer les packages de webpack, typescript, babel et de transpilation 
+				les packages se trouvent dans un répertoire node_modules qui devrait être ajouté au .gitignore
+--------------------------------------------------------------------------------------------------------------------------------------
+	>npm i --save-dev webpack webpack-cli @babel/core @babel/preset-env babel-loader @babel/plugin-proposal-decorators
+	>npm i --save-dev typescript @babel/preset-typescript awesome-typescript-loader angular2-template-loader angular2-router-loader to-string-loader style-loader css-loader html-loader
+
+
+--------------------------------------------------------------------------------------------------------------------------------------
+			Installer les packages de angular (dernière version, actuellement la 11)
+--------------------------------------------------------------------------------------------------------------------------------------
+	>npm i --save @angular/animations @angular/common @angular/compiler @angular/core @angular/forms @angular/platform-browser @angular/platform-browser-dynamic @angular/router rxjs tslib zone.js @angular/material @angular/cdk @angular/flex-layout material-design-icons
+
+	>npm i --save-dev @angular-devkit/build-angular @angular/cli @angular/compiler-cli @types/jasmine @types/node 
+
+
+--------------------------------------------------------------------------------------------------------------------------------------
+			Créer le fichier .babelrc qui paramètre babel
+--------------------------------------------------------------------------------------------------------------------------------------
+avec notepad++, créer le fichier .babelrc à la racine du projet qui contient le csproj du projet MVC
+
+	{
+	  "presets": [ "@babel/preset-typescript" ],
+	  "plugins": [
+		[
+		  "@babel/plugin-proposal-decorators",
+		  { "legacy": true }
+		]
+	  ]
+	}
+
+
+--------------------------------------------------------------------------------------------------------------------------------------
+			Créer le fichier webpack.config.js qui paramètre webpack
+--------------------------------------------------------------------------------------------------------------------------------------
+créer le fichier webpack.config.js à la racine du projet qui contient le csproj du projet MVC
+	const path = require("path");
+
+	module.exports = {
+		entry: {
+			app: path.resolve(__dirname, "client-src/app.ts"),
+			vendor: path.resolve(__dirname, "client-src/vendor.ts")
+		},
+		output: {
+			path: path.resolve(__dirname, "wwwroot/dist"),
+			filename: '[name].bundle.js'
+		},
+		resolve: {
+			extensions: ['.ts', 'tsx', '.js'],
+		},
+		module: {
+			rules: [
+				{
+					test: /\.(js)$/,
+					exclude: /node_modules/,
+					use: "babel-loader",
+				},
+				{
+					test: /\.tsx?/,
+					exclude: /node_modules/,
+					use: ['babel-loader', 'awesome-typescript-loader?silent=true', 'angular2-template-loader', 'angular2-router-loader']
+				},
+				{
+					test: /\.css$/,
+					exclude: /node_modules/,
+					use: ['to-string-loader', 'style-loader', 'css-loader'],
+				},
+				{
+					test: /\.html$/,
+					exclude: /node_modules/,
+					loader: 'html-loader'
+				},
+			],
+		},
+		mode: "development",
+	}
+
+
+--------------------------------------------------------------------------------------------------------------------------------------
+			Créer le fichier tsconfig.json qui paramètre typescript
+--------------------------------------------------------------------------------------------------------------------------------------
+créer le fichier tsconfig.json à la racine du projet qui contient le csproj du projet MVC
+	{
+	  "compilerOptions": {
+		"module": "ES2020",
+		"moduleResolution": "node",
+		"target": "es5",
+		"types": [ "node" ],
+		"typeRoots": [
+		  "node_modules/@types"
+		],
+		"outDir": "wwwroot/dist/",
+		"rootDir": "client-src/",
+		"experimentalDecorators": true,
+		"emitDecoratorMetadata": true,
+		"allowJs": true
+	  },
+	  "include": [
+		"client-src/**/*"
+	  ],
+	  "exclude": [
+		"node_modules",
+		"**/*.spec.ts"
+	  ],
+	  "typeRoots": [
+		"@typesCustom",
+		"node_modules/@types"
+	  ]
+	}
+
+
+--------------------------------------------------------------------------------------------------------------------------------------
+			Paramétrer le projet MVC pour qu'il ne crée pas des fichiers js et provoque une erreur au chargement de l'application
+--------------------------------------------------------------------------------------------------------------------------------------
+Editer le csproj du projet qui contient le csproj du projet MVC
+Ajouter la ligne suivante à l'élément PropertyGroup :
+	<TypeScriptCompileBlocked>true</TypeScriptCompileBlocked>
+
+Ca donne quelque chose comme ça :		
+	<PropertyGroup>
+		<TargetFramework>netcoreapp3.1</TargetFramework>
+		<TypeScriptCompileBlocked>true</TypeScriptCompileBlocked>
+	</PropertyGroup>		
+
+
+--------------------------------------------------------------------------------------------------------------------------------------
+			Créer un fichier typescript contenant ducode àexecuter pour vérifier que tout fonctionne bien
+				Il affichera Hello World dans la page au démarrage de l'application
+--------------------------------------------------------------------------------------------------------------------------------------
+créer un répertoire client-src dans le dossier qui contient le csproj du projet MVC
+ajouter un fichier typescript dans client-src\app.ts
+	var hello: string = "Hello World!";
+	document.body.innerHTML = hello;
+
+ajouter un fichier vendor.ts dans client-src
+	// Angular
+	import '@angular/platform-browser';
+	import '@angular/platform-browser-dynamic';
+	import '@angular/core';
+	import '@angular/common';
+	import '@angular/common/http';
+	import '@angular/router';
+
+	// RxJS
+	import 'rxjs';
+
+	// Other vendors for example jQuery, Lodash or Bootstrap
+	// You can import js, ts, css, sass, ...
+
+	import 'zone.js';
+	import 'zone.js/dist/long-stack-trace-zone.js';
+
+
+--------------------------------------------------------------------------------------------------------------------------------------
+			Ajouter au Layout MVC et la page Index le script généré par la transpilation du code typescript
+--------------------------------------------------------------------------------------------------------------------------------------
+Définir le fichier Views\Shared\_Layout.cshtml
+	<!DOCTYPE html>
+	<html lang="en">
+	<head>
+		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<base href="/" />
+		<style>
+			/* for sidenav to take a whole page */
+			html, body {
+				margin: 0;
+				height: 100%;
+			}
+		</style>
+	</head>
+	<body>
+		@RenderBody()
+
+		@RenderSection("Scripts", required: false)
+		@RenderSection("Styles", required: false)
+	</body>
+	</html>
+
+
+Définir le fichier Views\Home\Index.cshtml
+	@{
+		Layout = "~/Views/Shared/_Layout.cshtml";
+	}
+
+	<app-root>Loading ...</app-root>
+
+
+
+	@section Scripts {
+		<script src="~/dist/vendor.bundle.js?dt=@(DateTime.Now.Ticks)"></script>
+		<script src="~/dist/app.bundle.js?dt=@(DateTime.Now.Ticks)"></script>
+	} 
+
+	@section Styles{
+		<link href="./dist/indigo-pink.css" rel="stylesheet">
+		<link href="~/dist/material-icons.css" rel="stylesheet">
+	}
+
+--------------------------------------------------------------------------------------------------------------------------------------
+			Inclure les css de material et des icones dans le répertoire dist
+--------------------------------------------------------------------------------------------------------------------------------------
+Le fichier suivant doit être copié depuis le répertoire node_modules\@angular\material\prebuilt-themes et placé dans le répertoire wwwroot\dist
+    <link href="./dist/indigo-pink.css" rel="stylesheet">
+
+Le fichier suivant doit être copié depuis le répertoire node_modules\material-design-icons\iconfont et placé dans le répertoire wwwroot\dist
+	<link href="~/dist/material-icons.css" rel="stylesheet">
+
+copier aussi l'ensemble des fichiers MaterialIcons-Regular.*
+
+
+--------------------------------------------------------------------------------------------------------------------------------------
+			Ouvrir le projet Visual Studio et lancer la tâche build dans l'explorateur de tâches
+				Il peut être nécessaire de cliquer sur l'icone refresh en haut de la fenêtre explorateur de taches
+--------------------------------------------------------------------------------------------------------------------------------------
+executer la tache build
+demarrer le projet MVC
+il s'affiche "Hello World"
+Remarque : on peut modifier le fichier app.ts et rafraichir le "~/dist/bundle.js" avec la tache build sans arrêter l'exécution du projet,
+les changements sont pris en compte quand la fenêtre explorateur de tache affiche "Processus terminé avec le code 0." et que l'on recharge la page Index
+
+
+--------------------------------------------------------------------------------------------------------------------------------------
+			Encodage des pages contenant du HTML
+--------------------------------------------------------------------------------------------------------------------------------------
+PAr défaut Visual studio créer des fichiers encodés en ANSI
+Il faut les concertir en UTF-8 avec notepadd++ (menu Encodage) pour que les accents soient bien affichés
+
+
+--------------------------------------------------------------------------------------------------------------------------------------
+			Installation popup : annulé, on va utiliser la dialog angular material car sweetalert2 provoque un bug d'affichage
+--------------------------------------------------------------------------------------------------------------------------------------
+
+>npm i --save-dev sweetalert2
+	
+copier le sweetalert2.css et sweetalert2.js dans node_modules\sweetalert2\dist
+
+Définir le fichier Views\Home\Index.cshtml
+	@{
+		Layout = "~/Views/Shared/_Layout.cshtml";
+	}
+
+	<app-root>Loading ...</app-root>
+
+
+
+	@section Scripts {
+		<script src="~/dist/vendor.bundle.js?dt=@(DateTime.Now.Ticks)"></script>
+		<script src="~/dist/app.bundle.js?dt=@(DateTime.Now.Ticks)"></script>
+		<script src="~/dist/sweetalert2.js"></script>
+	}
+
+	@section Styles{
+		<link href="./dist/indigo-pink.css" rel="stylesheet">
+		<link href="~/dist/material-icons.css" rel="stylesheet">
+		<link href="~/dist/sweetalert2.css" rel="stylesheet">
+	}
+	
+--------------------------------------------------------------------------------------------------------------------------------------
+			Inclure des images dans les componets
+--------------------------------------------------------------------------------------------------------------------------------------
+>npm i --save url-loader
+
+ajouter dans webpack.config.js
+			{
+				test: /\.(jpe?g|png|gif|woff|woff2|eot|ttf|svg)(\?[a-z0-9=.]+)?$/,
+				loader: 'url-loader'
+			}
+
+
+	
+--------------------------------------------------------------------------------------------------------------------------------------
+			angular-datatables
+--------------------------------------------------------------------------------------------------------------------------------------
+npm install jquery --save
+npm install datatables.net --save
+npm install datatables.net-dt --save
+npm install angular-datatables --save
+npm install @types/jquery --save-dev
+npm install @types/datatables.net --save-dev
+
+
+"projects": {
+    "your-app-name": {
+      "architect": {
+        "build": {
+          "options": {
+            "styles": [
+              "node_modules/datatables.net-dt/css/jquery.dataTables.css"
+            ],
+            "scripts": [
+              "node_modules/jquery/dist/jquery.js",
+              "node_modules/datatables.net/js/jquery.dataTables.js"
+            ],
+            ...
+          }
+}
+
+import { NgModule } from "@angular/core";
+import { BrowserModule } from "@angular/platform-browser";
+
+import { DataTablesModule } from "angular-datatables";
+
+import { AppComponent } from "./app.component";
+
+@NgModule({
+  declarations: [AppComponent],
+  imports: [BrowserModule, DataTablesModule],
+  providers: [],
+  bootstrap: [AppComponent],
+})
+export class AppModule {}
+
+
+
+
+
+
+
+
+
+

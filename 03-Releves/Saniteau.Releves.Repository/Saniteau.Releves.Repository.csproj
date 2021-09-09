@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\07-Infrastructure\Saniteau.Infrastructure.DataContext\Saniteau.Infrastructure.DataContext.csproj" />
+    <ProjectReference Include="..\..\07-Infrastructure\Saniteau.Infrastructure.DataModel\Saniteau.Infrastructure.DataModel.csproj" />
+    <ProjectReference Include="..\Saniteau.Releves.Domain\Saniteau.Releves.Domain.csproj" />
+  </ItemGroup>
+
+</Project>

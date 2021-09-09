@@ -1,0 +1,18 @@
+<div style="width:100%;text-align:center;">
+    <div mat-dialog-content style="min-height:50px;display:flex">
+        <span style="margin-top:auto;margin-bottom:auto">{{title}}</span>
+    </div>
+    <div>
+        {{message}}
+    </div>
+    <div mat-dialog-actions class="dialog-confirm-wrapper">
+        <button mat-raised-button color="primary" (click)="confirm()">
+            <div style="display:flex">
+                <mat-icon style="margin-top:auto;margin-bottom:auto">done</mat-icon>
+                <span style="margin-top:auto;margin-bottom:auto;margin-left:5px;">OK</span>
+            </div>
+        </button>
+    </div>
+</div>
+
+

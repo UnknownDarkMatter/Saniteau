@@ -1,0 +1,1 @@
+﻿the controllers returns objects with any accents in order to angular handle them when serializing

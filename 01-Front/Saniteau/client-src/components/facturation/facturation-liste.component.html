@@ -1,0 +1,46 @@
+<div class="main-page-card-title">
+    <h3 style="display: inline;">Facturation des abonnés</h3>
+</div>
+<mat-card>
+    <div class="main-page-card-wrapper">
+        <div class="lancer-facturation-wrapper">
+            <img src="../../../wwwroot/img/facturation.jpg" alt="Facturation" class="img-facturation">
+            <div class="button-lancer-facturation">
+                <button mat-raised-button color="primary" (click)="creerFacturations()">Créer une facturation</button>
+            </div>
+        </div>
+        <div class="facturation-wrapper">
+            <mat-slide-toggle color="primary" (change)="toogleAbonneCampagne($event)"><h4>{{toogleAbonneCampagneLabel}}</h4></mat-slide-toggle>
+            <div *ngIf="grouperParAbonne" class="abonne-campagne-content">
+                <label>Factures par abonnés</label>
+            </div>
+            <div *ngIf="!grouperParAbonne" class="abonne-campagne-content">
+                <label>Factures par création de facturations</label>
+                <mat-accordion *ngFor="let facturationParCampagne of facturationsParCampagnes">
+                    <mat-expansion-panel class="facturation-ligne">
+                        <mat-expansion-panel-header>
+                            <mat-panel-title>
+                                Campagne {{facturationParCampagne.idCampagneFacturation}} émise le {{facturationParCampagne.dateFacturationAsString}}
+                            </mat-panel-title>
+                        </mat-expansion-panel-header>
+                        <p *ngFor="let facturation of facturationParCampagne.facturations; let even = even; let odd = odd"
+                           class="facturations-list"
+                           [ngClass]="{ even: even, odd: odd }">
+                            <span style="margin-top:auto;margin-bottom:auto">
+                                Facture de {{facturation.abonne.prenom}} {{facturation.abonne.nom}} {{facturation.idFacturation}}
+                            </span>
+                            <button mat-button style="display:none">
+                                <mat-icon>attach_money</mat-icon>
+                                <span>Details</span>
+                            </button>
+                            <button mat-button (click)="openDetails(facturation.idFacturation)">
+                                <mat-icon>format_list_numbered</mat-icon>
+                                <span>Details</span>
+                            </button>
+                        </p>
+                    </mat-expansion-panel>
+                </mat-accordion>
+            </div>
+        </div>
+    </div>
+</mat-card>

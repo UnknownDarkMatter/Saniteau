@@ -1,0 +1,32 @@
+<div class="main-page-card-title">
+    <h3 style="display: inline;">Relève de compteurs</h3>
+</div>
+
+<mat-card>
+    <div class="main-page-card-wrapper">
+        <div class="telereleve-header">
+            <img src="../../../wwwroot/img/compteur-telereleve.png" alt="Télérelève" class="img-telereleve">
+            <button mat-raised-button color="primary" (click)="releve()" style="">Lancer une relève</button>
+        </div>
+        <div class="releve-card">
+            <div class="telereleve-container">
+                Relèves déjà réalisées
+                <br />
+                <br />
+                <br />
+                <table class="row-border hover" id="{{dataTableTableId}}">
+                    <thead>
+                        <tr>
+                            <th>Numéro</th>
+                            <th>Date de relevé</th>
+                            <th>Comsommation usagers (m³)</th>
+                            <th>Pourcentage fuites</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</mat-card>
+

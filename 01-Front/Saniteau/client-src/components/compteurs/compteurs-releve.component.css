@@ -1,0 +1,78 @@
+.main-page-card-title {
+    position: relative;
+    z-index: 99;
+    top: 20px;
+    left: 20px;
+    border: solid lightgray 1px;
+    border-radius: 5px;
+    padding: 10px;
+    width: 200px;
+    height: 21px;
+    background-color: white;
+    box-shadow: 3px 3px 1px 1px rgba(0, 0, 255, .2);
+}
+
+mat-card {
+    height: auto;
+    min-width: 90%;
+    padding-top: 40px !important;
+}
+
+.main-page-card-wrapper {
+    position: relative;
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-bottom: 10px;
+    overflow-x: auto;
+}
+
+
+.releve-card {
+    padding-bottom: 10px;
+    background: rgba(63,181,168,0.1);
+    border-radius: 15px;
+    box-shadow: 3px 3px 1px 1px rgba(0, 0, 255, .2);
+    transition: 0.3s;
+}
+
+    .releve-card:hover {
+        box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+    }
+
+.img-telereleve{
+    width:200px;
+}
+.telereleve-container{
+    padding:20px;
+}
+
+.telereleve-quote {
+    font-style: italic;
+    margin-left: 32px;
+}
+
+.telereleve-header{
+
+}
+@media screen and (min-width: 700px) {
+    .telereleve-header {
+        display: grid;
+        /*conteneur de grille avec 2 rangées, la premiere de 30% de l'espace restant et la deuxième 60% de l'espace restant*/
+        grid-template-columns: 200px 148px auto;
+        column-gap: 5%;
+    }
+        .telereleve-header > button {
+            height: 40px;
+            margin-top: auto;
+            margin-bottom: auto;
+        }
+}
+@media screen and (max-width: 700px) {
+    .telereleve-header > button {
+        margin: 20px;
+    }
+}
+
+#campagnesTable th {
+    text-align:left;
+}
