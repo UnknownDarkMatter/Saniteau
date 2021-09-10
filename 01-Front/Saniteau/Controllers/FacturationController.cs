@@ -16,7 +16,7 @@ using Saniteau.PdfRendering;
 
 namespace Saniteau.Controllers
 {
-    [Authorize(Policy = Constants.JWT.ApiAccessPolicyName)]
+    [Authorize(Policy = Constants.JWT.ApiAccessPolicyName)] 
     public class FacturationController : Controller
     {
         private readonly RéférentielAbonnésOnEfCore _référentielAbonnés;
