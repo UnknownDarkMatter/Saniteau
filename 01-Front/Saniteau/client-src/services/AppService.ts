@@ -35,4 +35,9 @@ export class AppService {
         dialogConfig.data = {};
         return this.spinnerDialog.open(DialogSpinnerComponent, dialogConfig);
     }
+
+    public numberToString(value: number, nbDecimals: number): string {
+        let multiple: number = nbDecimals * 10;
+        return (Math.round(value * multiple) / multiple).toFixed(nbDecimals);
+    }
 }

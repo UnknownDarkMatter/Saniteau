@@ -7,7 +7,6 @@ import { RouterModule } from '@angular/router';
 
 import { AppRoutingModule } from './app-routing.module';
 
-
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatButtonModule } from '@angular/material/button';
 import  {MatToolbarModule} from "@angular/material/toolbar";
@@ -66,6 +65,10 @@ import { FacturationAbonneComponent } from '../components/facturation/abonne-fac
 import { FacturationCampagneComponent } from '../components/facturation/campagne-facturation.component';
 
 
+//import * as ngCore from '@angular/core';
+//declare const paypal: any;
+//let PayPalButtonModule = paypal.Button.driver('angular2', ngCore);
+
 @NgModule({
     declarations: [
         AppComponent, AccountCreateComponent, LoginFormComponent, LoginDialogComponent, DialogConfirmComponent, DialogInfoComponent,
@@ -109,6 +112,8 @@ import { FacturationCampagneComponent } from '../components/facturation/campagne
         MatStepperModule,
         MatSlideToggleModule,
         MatExpansionModule
+
+        //,PayPalButtonModule
   ],
     providers: [],
     bootstrap: [AppComponent],

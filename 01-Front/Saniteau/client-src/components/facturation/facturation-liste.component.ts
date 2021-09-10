@@ -9,11 +9,15 @@ import { FacturationParCampagne } from '../../model/facturation/FacturationParCa
 import { AppService } from '../../services/AppService';
 import { HttpService } from '../../services/HttpService';
 import Swal from 'sweetalert2'
+import { FacturationLigne } from '../../model/facturation/FacturationLigne';
+declare const paypal: any;
+
 
 @Component({
     selector: 'facturation-liste',
     templateUrl: 'facturation-liste.component.html',
-    styleUrls: ['./facturation-liste.component.css']
+    styleUrls: ['./facturation-liste.component.css'],
+     
 })
 export class FacturationListeComponent implements OnInit {
     public toogleAbonneCampagneLabel: string;
@@ -22,7 +26,7 @@ export class FacturationListeComponent implements OnInit {
     public facturationsParAbonnes: FacturationParAbonne[] = [];
     public facturationsParCampagnes: FacturationParCampagne[] = [];
 
-    constructor(@Inject(AppService) public appService,
+    constructor(@Inject(AppService) public appService: AppService,
         @Inject(HttpService) public httpService: HttpService,
         @Inject(MatSnackBar) public snackBar: MatSnackBar) {
         this.toogleAbonneCampagneLabel = 'Grouper par facturations';
@@ -92,7 +96,7 @@ export class FacturationListeComponent implements OnInit {
         }
     }
 
-    public openDetails(idFacturation:string) {
+    openDetails(idFacturation:string) {
         let idFacturationAsNumber: number = +idFacturation;
         let facturation = this.getFacturationsParId(idFacturationAsNumber);
         let idAbonneAsNumber: number = + facturation.abonne.idAbonne;
@@ -103,11 +107,46 @@ export class FacturationListeComponent implements OnInit {
         });
     }
 
-    public payFacturation(idFacturation: string) {
+    payFacturation(idFacturation: string) {
         let idFacturationAsNumber: number = +idFacturation;
         let facturation = this.getFacturationsParId(idFacturationAsNumber);
         let idAbonneAsNumber: number = + facturation.abonne.idAbonne;
-        alert('TODO: payer facture de ' + facturation.abonne.prenom + ' ' + facturation.abonne.nom + ' émise le ' + facturation.dateFacturationAsString);
+        let facturationMontantAsString = this.appService.numberToString(this.getFacturationAmountEuros(facturation), 2);
+        Swal.fire({
+            title: 'Paiement de ' + facturationMontantAsString,
+            width: '80%',
+            showCancelButton: true,
+            showConfirmButton: false,
+            allowOutsideClick: false,
+            html: '<span>Test cards : Mastercard 2223016768739313, Visa 4012888888881881</span> <br/><div id="paypal-buttons"></div>'
+        });
+
+        //https://developer.paypal.com/docs/checkout/integrate/
+        paypal.Buttons({
+            createOrder: function (data, actions) {
+                return actions.order.create({
+                    purchase_units: [{
+                        amount: {
+                            value: facturationMontantAsString
+                        }
+                    }]
+                });
+            },
+            onApprove: function (data, actions) {
+                return actions.order.capture().then(function (details) {
+                    alert('Transaction completed by ' + details.payer.name.given_name);
+                });
+            }
+        }).render('#paypal-buttons');
+    }
+
+
+    private getFacturationAmountEuros(facturation: Facturation): number {
+        let amountEuros: number = 0;
+        for (let ligneFacturation of facturation.facturationLignes) {
+            amountEuros += ligneFacturation.montantEuros;
+        }
+        return amountEuros;
     }
 
     private getFacturationsParAbonne(abonne: Abonne) {

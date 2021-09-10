@@ -27,7 +27,7 @@
                            class="facturations-list"
                            [ngClass]="{ even: even, odd: odd }">
                             <span style="margin-top:auto;margin-bottom:auto">
-                                Facture de {{facturation.abonne.prenom}} {{facturation.abonne.nom}} {{facturation.idFacturation}}
+                                Facture de {{facturation.abonne.prenom}} {{facturation.abonne.nom}} d'un montant de {{getFacturationAmountEuros(facturation)}} {{(facturation.payee) ? 'payée' : 'non payée'}}
                             </span>
                             <button mat-button [ngStyle]="{'display':(facturation.payee) ? 'none' : 'block' }"  (click)="payFacturation(facturation.idFacturation)">
                                 <mat-icon>attach_money</mat-icon>
