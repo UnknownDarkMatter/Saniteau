@@ -19,8 +19,7 @@ namespace Saniteau.PdfRendering
             string html = GetHtmlOfFacturation(facturation);
             using (MemoryStream stream = new MemoryStream())
             {
-                StringReader sr = new StringReader(html);
-
+                iText.Html2pdf.HtmlConverter.ConvertToPdf(html, stream);
                 return stream.ToArray();
             }
         }
@@ -28,6 +27,7 @@ namespace Saniteau.PdfRendering
         {
             var cultureInfo = new CultureInfo("fr-FR");
             string template = RessourcesHelper.GetRessource("FactureAbonne.html");
+            template = template.Replace("{{numero-facture}}", facturation.IdFacturation.ToString());
             template = template.Replace("{{est-payee}}", facturation.Payee ? "Payée" : "Non payée");
             template = template.Replace("{{date}}", facturation.DateFacturation.ToString("dddd dd MMMM yyyy"));
             template = template.Replace("{{prenom-nom}}", $"{facturation.Abonne.Prenom} {facturation.Abonne.Nom.ToUpper()}");
