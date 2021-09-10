@@ -91,7 +91,14 @@ export class FacturationListeComponent implements OnInit {
         }
     }
 
-    openDetails(idFacturation:string) {
+    public openDetails(idFacturation:string) {
+        let idFacturationAsNumber: number = +idFacturation;
+        let facturation = this.getFacturationsParId(idFacturationAsNumber);
+        let idAbonneAsNumber: number = + facturation.abonne.idAbonne;
+        alert('TODO: afficher pdf de facture de ' + facturation.abonne.prenom + ' ' + facturation.abonne.nom + ' émise le ' + facturation.dateFacturationAsString);
+    }
+
+    public payFacturation(idFacturation: string) {
         let idFacturationAsNumber: number = +idFacturation;
         let facturation = this.getFacturationsParId(idFacturationAsNumber);
         let idAbonneAsNumber: number = + facturation.abonne.idAbonne;

@@ -29,9 +29,9 @@
                             <span style="margin-top:auto;margin-bottom:auto">
                                 Facture de {{facturation.abonne.prenom}} {{facturation.abonne.nom}} {{facturation.idFacturation}}
                             </span>
-                            <button mat-button style="display:none">
+                            <button mat-button [ngStyle]="{'display':(facturation.payee) ? 'none' : 'block' }"  (click)="payFacturation(facturation.idFacturation)">
                                 <mat-icon>attach_money</mat-icon>
-                                <span>Details</span>
+                                <span>Payer</span>
                             </button>
                             <button mat-button (click)="openDetails(facturation.idFacturation)">
                                 <mat-icon>format_list_numbered</mat-icon>
