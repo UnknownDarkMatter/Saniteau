@@ -8,6 +8,7 @@ import { FacturationParAbonne } from '../../model/facturation/FacturationParAbon
 import { FacturationParCampagne } from '../../model/facturation/FacturationParCampagne';
 import { AppService } from '../../services/AppService';
 import { HttpService } from '../../services/HttpService';
+import Swal from 'sweetalert2'
 
 @Component({
     selector: 'facturation-liste',
@@ -95,7 +96,11 @@ export class FacturationListeComponent implements OnInit {
         let idFacturationAsNumber: number = +idFacturation;
         let facturation = this.getFacturationsParId(idFacturationAsNumber);
         let idAbonneAsNumber: number = + facturation.abonne.idAbonne;
-        alert('TODO: afficher pdf de facture de ' + facturation.abonne.prenom + ' ' + facturation.abonne.nom + ' émise le ' + facturation.dateFacturationAsString);
+        Swal.fire({
+            title: 'Facture',
+            width: '80%',
+            html: '<iframe width="100%" height="300" src="/Facturation/ObtenirFacture?idFacturation=' + idFacturation + '&idAbonne=' + facturation.abonne.idAbonne + '" frameborder="0"></iframe>'
+        });
     }
 
     public payFacturation(idFacturation: string) {

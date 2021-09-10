@@ -16,7 +16,6 @@ using Saniteau.PdfRendering;
 
 namespace Saniteau.Controllers
 {
-    [Authorize(Policy = Constants.JWT.ApiAccessPolicyName)] 
     public class FacturationController : Controller
     {
         private readonly RéférentielAbonnésOnEfCore _référentielAbonnés;
@@ -43,6 +42,7 @@ namespace Saniteau.Controllers
             _référentielPDL = référentielPDL;
         }
 
+        [Authorize(Policy = Constants.JWT.ApiAccessPolicyName)]
         [HttpGet]
         public ActionResult CreerFacturations()
         {
@@ -55,6 +55,7 @@ namespace Saniteau.Controllers
         }
 
 
+        [Authorize(Policy = Constants.JWT.ApiAccessPolicyName)]
         [HttpGet]
         public ActionResult ObtenirFacturations()
         {
@@ -65,7 +66,7 @@ namespace Saniteau.Controllers
             return new JsonResult(clientFacturations);
         }
 
-
+        //pas d'authorization car iframe ne supporte pas la définition de Header.set('Authorization', `Bearer ${authToken}`);
         [HttpGet]
         public ActionResult ObtenirFacture(int idFacturation, int idAbonne)
         {
@@ -75,7 +76,8 @@ namespace Saniteau.Controllers
             var facturation = Mappers.FacturationMapper.Map(facturationAsContract);
             var pdfGenerator = new PdfFactureGenerator();
             var bytes = pdfGenerator.GeneratePdfFacture(facturation);
-            return File(bytes, "application/pdf", $"Facture-eau-{facturation.Abonne.Nom}-{facturation.DateFacturation.ToString("yyyy-MM-dd")}.pdf");
+            //return File(bytes, "application/octet-stream", $"Facture-eau-{facturation.Abonne.Nom}-{facturation.DateFacturation.ToString("yyyy-MM-dd")}.pdf");
+            return new FileContentResult(bytes, "application/pdf");
         }
 
     }
