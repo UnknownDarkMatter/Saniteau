@@ -11,5 +11,6 @@ namespace Saniteau.Facturation.Domain
         List<Facturation> GeAllFacturations();
         Facturation EnregistrerFacturation(Facturation facturation);
         int GetDerniereCampagneFacturationId();
+        Facturation GetFacturation(IdFacturation idFacturation);
     }
 }

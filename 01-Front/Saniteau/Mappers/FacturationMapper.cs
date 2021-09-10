@@ -15,5 +15,23 @@ namespace Saniteau.Mappers
                 facturation.FacturationLignes.Select(FacturationLigneMapper.Map).ToList(), (int)facturation.IdDernierIndex, facturation.Payée);
         }
 
+        public static string Map(Models.Facturation.ClasseLigneFacturation classeLigneFacturation)
+        {
+            switch (classeLigneFacturation)
+            {
+                case Models.Facturation.ClasseLigneFacturation.Abonnement:
+                    {
+                        return "Abonnement";
+                    }
+                case Models.Facturation.ClasseLigneFacturation.ConsommationReelle:
+                    {
+                        return "Consommation";
+                    }
+                default:
+                    {
+                        return classeLigneFacturation.ToString();
+                    }
+            }
+        }
     }
 }

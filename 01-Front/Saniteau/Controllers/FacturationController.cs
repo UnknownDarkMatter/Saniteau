@@ -12,6 +12,7 @@ using Saniteau.Facturation.Domain;
 using Saniteau.Facturation.Application.Handlers;
 using Saniteau.Facturation.Contract.Commands;
 using Saniteau.Common;
+using Saniteau.PdfRendering;
 
 namespace Saniteau.Controllers
 {
@@ -64,6 +65,18 @@ namespace Saniteau.Controllers
             return new JsonResult(clientFacturations);
         }
 
+
+        [HttpGet]
+        public ActionResult ObtenirFacture(int idFacturation, int idAbonne)
+        {
+            var getFacturationCommand = new GetFacturationCommand(idFacturation, idAbonne);
+            var getFacturationCommandHandler = new GetFacturationCommandHandler(_référentielFacturation, _référentielAbonnés);
+            var facturationAsContract = getFacturationCommandHandler.Handle(getFacturationCommand);
+            var facturation = Mappers.FacturationMapper.Map(facturationAsContract);
+            var pdfGenerator = new PdfFactureGenerator();
+            var bytes = pdfGenerator.GeneratePdfFacture(facturation);
+            return File(bytes, "application/pdf", $"Facture-eau-{facturation.Abonne.Nom}-{facturation.DateFacturation.ToString("yyyy-MM-dd")}.pdf");
+        }
 
     }
 }

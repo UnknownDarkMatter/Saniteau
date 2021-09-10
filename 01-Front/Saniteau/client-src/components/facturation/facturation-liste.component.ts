@@ -94,6 +94,7 @@ export class FacturationListeComponent implements OnInit {
     openDetails(idFacturation:string) {
         let idFacturationAsNumber: number = +idFacturation;
         let facturation = this.getFacturationsParId(idFacturationAsNumber);
+        let idAbonneAsNumber: number = + facturation.abonne.idAbonne;
         alert('TODO: payer facture de ' + facturation.abonne.prenom + ' ' + facturation.abonne.nom + ' émise le ' + facturation.dateFacturationAsString);
     }
 

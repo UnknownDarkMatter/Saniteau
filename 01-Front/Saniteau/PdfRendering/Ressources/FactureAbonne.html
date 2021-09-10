@@ -1,0 +1,57 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <style>
+        body {
+            margin-top: 20px;
+            margin-bottom: 20px;
+            margin-left: 100px;
+            margin-right: 100px;
+        }
+        td {
+            padding-top: 5px;
+            padding-right: 100px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Facture de consommation d'eau</h1>
+    <div style="display: grid; grid-template-columns: auto 1fr auto;">
+        <h2>{{est-payee}}</h2>
+        <div></div>
+        <h2>{{date}}</h2>
+    </div>
+    <div style="display: grid; grid-template-columns: 300px 1fr;">
+        <div>
+            <p>Saniteau</p>
+            <p>10 rue des petits pas</p>
+            <p>75000 PARIS</p>
+        </div>
+    </div>
+    <div style="display: grid; grid-template-columns: 1fr auto;">
+        <div></div>
+        <div>
+            <p>{{prenom-nom}}</p>
+            <p>{{adresse}}</p>
+            <p>{{codepostal-ville}}</p>
+        </div>
+    </div>
+    <h2>Montant facturé</h2>
+    <table>
+        <tr>
+            <td>Prestation</td>
+            <td>Montant</td>
+        </tr>
+        <tr style="display:none" factu-element="ligne-facturation">
+            <td>{{ligne-facturation-prestation}}</td>
+            <td>{{ligne-facturation-montant}}</td>
+        </tr>
+        <tr>
+            <td>TOTAL</td>
+            <td>{{ligne-facturation-total}}</td>
+        </tr>
+    </table>
+</body>
+</html>

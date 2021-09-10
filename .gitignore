@@ -53,3 +53,14 @@
 /07-Infrastructure/Saniteau.Infrastructure.DataContext/bin/Debug/netcoreapp3.1
 /07-Infrastructure/Saniteau.Infrastructure.DataModel/bin/Debug/netcoreapp3.1
 /08-Common/Saniteau.Common/bin/Debug/netcoreapp3.1
+/01-Front/Saniteau/node_modules
+/01-Front/Tests/Saniteau.Tests/bin/Debug/netcoreapp3.1
+/02-Compteurs/Tests/Saniteau.Compteurs.Application.Tests/bin/Debug/netcoreapp3.1
+/02-Compteurs/Tests/Saniteau.Compteurs.Domain.Tests/bin/Debug/netcoreapp3.1
+/02-Compteurs/Tests/Saniteau.Compteurs.Repository.Tests/bin/Debug/netcoreapp3.1
+/03-Releves/Tests/Saniteau.Releves.Domain.Tests/bin/Debug/netcoreapp3.1
+/04-Facturation/Tests/Saniteau.Facturation.Domain.Tests/bin/Debug/netcoreapp3.1
+/04-Facturation/Tests/Saniteau.Facturation.Repository.Tests/bin/Debug/netcoreapp3.1
+/05-DSP/Tests/Saniteau.DSP.Domain.Tests/bin/Debug/netcoreapp3.1
+/05-DSP/Tests/Saniteau.DSP.Repository.Tests/bin/Debug/netcoreapp3.1
+/08-Common/Tests/Saniteau.Common.Tests/bin/Debug/netcoreapp3.1

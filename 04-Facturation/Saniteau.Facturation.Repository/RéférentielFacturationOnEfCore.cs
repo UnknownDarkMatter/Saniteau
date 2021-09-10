@@ -123,5 +123,18 @@ namespace Saniteau.Facturation.Repository
                 return 0;
             }
         }
+
+        public Domain.Facturation GetFacturation(IdFacturation idFacturation)
+        {
+            using (var dbContext = _dbContextFactory.CreateDbContext())
+            {
+                var facturation = dbContext.Facturations
+                    .Include(m => m.Abonné)
+                    .Include(m => m.FacturationLignes)
+                    .FirstOrDefault(m => m.IdFacturation == (int) idFacturation);
+
+                return FacturationMapper.Map(facturation);
+            }
+        }
     }
 }
