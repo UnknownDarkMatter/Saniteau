@@ -11,7 +11,7 @@ namespace Saniteau.Facturation.Payment.Services
         public static string SavedTokenPath =  Directory.GetCurrentDirectory() + "/App_Data/SavedToken.json";
 
         //PaymentDemo
-        public const string ClientId = "";
+        public const string ClientId = "AcZ2w1FzoK4FurjtjHHjJMTQIo0eJuiHcDNVMojRiWlXxTMKwrl-BMTVWnuLD9_MmEEx7tZNTm8NbQ9n";
         public const string Secret = "";
 
 

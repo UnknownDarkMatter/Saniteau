@@ -129,10 +129,11 @@ export class FacturationListeComponent implements OnInit {
         window['myFacturationListeComponent'] = this; //todo:voir comment créer le bouton en typescript plutot que d'avoir une reference à window : le loadInlineScript ne permet pas de passer des objets car il set la propriété text de l'objet script
 
         //https://developer.paypal.com/docs/checkout/integrate/
-        let clientId: string = 'sb';
+        let clientId: string = 'AcZ2w1FzoK4FurjtjHHjJMTQIo0eJuiHcDNVMojRiWlXxTMKwrl-BMTVWnuLD9_MmEEx7tZNTm8NbQ9n';
         this.loadExternalScript("https://www.paypal.com/sdk/js?client-id=" + clientId + "&currency=EUR&intent=capture").then(() => {
-            
-            this.loadInlineScript(`
+            this.loadExternalScript("https://www.paypal.com/sdk/js?client-id=" + clientId + "&currency=EUR&intent=capture").then(() => {//todo:voir comment éviter de devoir charger 2 fois le script pour éviter le bug d'affichage
+
+                this.loadInlineScript(`
 paypal.Buttons({
     createOrder: function(data, actions) {
       return actions.order.create({
@@ -171,6 +172,9 @@ paypal.Buttons({
 
   }).render('#paypal-buttons');
 `);
+
+
+            });
         });
 
 
