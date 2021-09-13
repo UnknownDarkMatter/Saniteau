@@ -10,6 +10,9 @@ import { AppService } from '../../services/AppService';
 import { HttpService } from '../../services/HttpService';
 import Swal from 'sweetalert2'
 import { FacturationLigne } from '../../model/facturation/FacturationLigne';
+import { PaypalOrder } from '../../model/paiement/PaypalOrder';
+import { RequestReponse } from '../../model/RequestReponse';
+import { Router } from '@angular/router';
 declare const paypal: any;
 
 
@@ -28,6 +31,7 @@ export class FacturationListeComponent implements OnInit {
 
     constructor(@Inject(AppService) public appService: AppService,
         @Inject(HttpService) public httpService: HttpService,
+        @Inject(Router) private router: Router,
         @Inject(MatSnackBar) public snackBar: MatSnackBar) {
         this.toogleAbonneCampagneLabel = 'Grouper par facturations';
         this.grouperParAbonne = false;
@@ -112,6 +116,7 @@ export class FacturationListeComponent implements OnInit {
         let facturation = this.getFacturationsParId(idFacturationAsNumber);
         let idAbonneAsNumber: number = + facturation.abonne.idAbonne;
         let facturationMontantAsString = this.appService.numberToString(this.getFacturationAmountEuros(facturation), 2);
+
         Swal.fire({
             title: 'Paiement de ' + facturationMontantAsString,
             width: '80%',
@@ -121,10 +126,12 @@ export class FacturationListeComponent implements OnInit {
             html: '<span>Test cards : Mastercard 2223016768739313, Visa 4012888888881881</span> <br/><div id="paypal-buttons"></div>'
         });
 
+        window['myFacturationListeComponent'] = this; //todo:voir comment créer le bouton en typescript plutot que d'avoir une reference à window : le loadInlineScript ne permet pas de passer des objets car il set la propriété text de l'objet script
+
         //https://developer.paypal.com/docs/checkout/integrate/
         let clientId: string = 'sb';
         this.loadExternalScript("https://www.paypal.com/sdk/js?client-id=" + clientId + "&currency=EUR&intent=capture").then(() => {
-
+            
             this.loadInlineScript(`
 paypal.Buttons({
     createOrder: function(data, actions) {
@@ -158,7 +165,7 @@ paypal.Buttons({
 
     onApprove: function(data, actions) {
         return actions.order.capture().then(function(details) {
-            alert('Transaction ' + details.id + ' completed by ' + details.payer.name.given_name + '!');
+            window['myFacturationListeComponent'].enregistrePayment(details, ` + idFacturation + `);
         });
     }
 
@@ -167,6 +174,25 @@ paypal.Buttons({
         });
 
 
+    }
+
+    enregistrePayment(paymentDetails: any, idFacturation: number) {
+        let paypalOrder: PaypalOrder = new PaypalOrder();
+        paypalOrder.orderId = paymentDetails.id;
+        paypalOrder.idFacturation = idFacturation;
+        let observable = this.httpService.postAsObservable('/Payment/EnregistrePayment', paypalOrder);
+        observable.subscribe(data => {
+            let requestResponse: RequestReponse = data as RequestReponse;
+            if (requestResponse.isError) {
+                this.snackBar.open('Erreur : ' + requestResponse.errorMessage, '', { duration: 3000 });
+                return;
+            }
+            Swal.close();
+            this.router.navigate(['dashboard']);
+        }, error => {
+            this.snackBar.open('Erreur ' + error.status + ' : ' + error.statusText, '', { duration: 3000 });
+        });
+        
     }
 
     private loadExternalScript(scriptUrl: string) {

@@ -33,9 +33,10 @@ namespace Saniteau.Facturation.Repository
                 existingModel.IdAbonné = model.IdAbonné;
                 existingModel.DateFacturation = model.DateFacturation;
                 existingModel.IdDernierIndex = model.IdDernierIndex;
+                existingModel.Payée = model.Payée;
 
                 //Add
-                foreach(var ligne in model.FacturationLignes.Where(m => m.IdFacturationLigne == 0))
+                foreach (var ligne in model.FacturationLignes.Where(m => m.IdFacturationLigne == 0))
                 {
                     existingModel.FacturationLignes.Add(ligne);
                 }

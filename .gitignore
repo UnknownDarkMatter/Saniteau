@@ -64,3 +64,5 @@
 /05-DSP/Tests/Saniteau.DSP.Domain.Tests/bin/Debug/netcoreapp3.1
 /05-DSP/Tests/Saniteau.DSP.Repository.Tests/bin/Debug/netcoreapp3.1
 /08-Common/Tests/Saniteau.Common.Tests/bin/Debug/netcoreapp3.1
+/04-Facturation/Saniteau.Facturation.Payment/Saniteau.Facturation.Payment/bin/Debug/netcoreapp3.1
+/04-Facturation/Saniteau.Facturation.Payment/Saniteau.Facturation.Payment/obj

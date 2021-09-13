@@ -45,6 +45,11 @@ namespace Saniteau.Facturation.Domain
             Payée = payée;
         }
 
+        public void SetFacturationPayée(bool payée)
+        {
+            Payée = payée;
+        }
+
         public static Facturation CalculeFacturation(int idCampagneFacturation, DateTime dateFacturation, IdAbonné idAbonné, 
             RéférentielAbonnés référentielAbonnés , RéférentielAppairage référentielAppairage,
             RéférentielIndexesCompteurs référentielIndexesCompteurs, RéférentielFacturation référentielFacturation)

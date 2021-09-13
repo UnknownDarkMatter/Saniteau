@@ -18,7 +18,7 @@
   <ItemGroup>
     <PackageReference Include="itext7.pdfhtml" Version="3.0.5" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="3.1.11" />
-    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
   </ItemGroup>
 
   <ItemGroup>
@@ -30,11 +30,16 @@
     <ProjectReference Include="..\..\03-Releves\Saniteau.Releves.Repository\Saniteau.Releves.Repository.csproj" />
     <ProjectReference Include="..\..\04-Facturation\Saniteau.Facturation.Application\Saniteau.Facturation.Application.csproj" />
     <ProjectReference Include="..\..\04-Facturation\Saniteau.Facturation.Contract\Saniteau.Facturation.Contract.csproj" />
+    <ProjectReference Include="..\..\04-Facturation\Saniteau.Facturation.Payment\Saniteau.Facturation.Payment\Saniteau.Facturation.Payment.csproj" />
     <ProjectReference Include="..\..\04-Facturation\Saniteau.Facturation.Repository\Saniteau.Facturation.Repository.csproj" />
     <ProjectReference Include="..\..\05-DSP\Saniteau.DSP.Application\Saniteau.DSP.Application.csproj" />
     <ProjectReference Include="..\..\05-DSP\Saniteau.DSP.Contract\Saniteau.DSP.Contract.csproj" />
     <ProjectReference Include="..\..\05-DSP\Saniteau.DSP.Repository\Saniteau.DSP.Repository.csproj" />
     <ProjectReference Include="..\..\07-Infrastructure\Saniteau.Infrastructure.DataContext\Saniteau.Infrastructure.DataContext.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="App_Data\" />
   </ItemGroup>
 
 </Project>

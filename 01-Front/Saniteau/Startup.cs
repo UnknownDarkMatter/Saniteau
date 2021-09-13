@@ -15,6 +15,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using Saniteau.Auth;
 using Saniteau.Database;
+using Saniteau.Facturation.Payment.Services;
 using Saniteau.Infrastructure.DataContext;
 using Saniteau.Infrastructure.DataModel.Identity;
 using Saniteau.Models;
@@ -40,6 +41,12 @@ namespace Saniteau
 
             //database
             services.AddDistributedMemoryCache();
+
+            services.AddHttpClient();
+            services.AddScoped<AccessTokenManager>();
+            services.AddScoped<PaymentService>();
+            services.AddScoped<HttpMethodCaller>();
+
             services.AddDbContext<SaniteauDbContext>(opt => opt.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             services.AddScoped<SaniteauDbContext>();
             services.AddScoped<IDbContextFactory, SaniteauDbContextFactory>();
