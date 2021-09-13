@@ -122,22 +122,68 @@ export class FacturationListeComponent implements OnInit {
         });
 
         //https://developer.paypal.com/docs/checkout/integrate/
-        paypal.Buttons({
-            createOrder: function (data, actions) {
-                return actions.order.create({
-                    purchase_units: [{
-                        amount: {
-                            value: facturationMontantAsString
-                        }
-                    }]
-                });
-            },
-            onApprove: function (data, actions) {
-                return actions.order.capture().then(function (details) {
-                    alert('Transaction completed by ' + details.payer.name.given_name);
-                });
+        let clientId: string = 'sb';
+        this.loadExternalScript("https://www.paypal.com/sdk/js?client-id=" + clientId + "&currency=EUR&intent=capture").then(() => {
+
+            this.loadInlineScript(`
+paypal.Buttons({
+    createOrder: function(data, actions) {
+      return actions.order.create({
+        purchase_units: [{
+          amount: {
+            value: '` + facturationMontantAsString + `',
+            currency_code: 'EUR',
+            breakdown: {
+                        item_total: {value: '` + facturationMontantAsString + `', currency_code: 'EUR'}
+                    }
+          },
+        items: [{
+                    name: 'Facture eau',
+                    unit_amount: {value: '` + facturationMontantAsString + `', currency_code: 'EUR'},
+                    quantity: '1',
+                    category: 'DIGITAL_GOODS'
+                }]
+        }],
+        application_context: {
+        	shipping_preference: 'NO_SHIPPING',
+      	},
+        payer: {
+            name: {
+                given_name: '` + facturation.abonne.nom + `',
+                surname: '` + facturation.abonne.prenom + `'
             }
-        }).render('#paypal-buttons');
+        }
+      });
+    },
+
+    onApprove: function(data, actions) {
+        return actions.order.capture().then(function(details) {
+            alert('Transaction ' + details.id + ' completed by ' + details.payer.name.given_name + '!');
+        });
+    }
+
+  }).render('#paypal-buttons');
+`);
+        });
+
+
+    }
+
+    private loadExternalScript(scriptUrl: string) {
+        return new Promise((resolve, reject) => {
+            const scriptElement = document.createElement('script')
+            scriptElement.src = scriptUrl
+            scriptElement.onload = resolve
+            document.body.appendChild(scriptElement)
+        })
+    }
+    private loadInlineScript(scriptText: string) {
+        return new Promise((resolve, reject) => {
+            const scriptElement = document.createElement('script')
+            scriptElement.text = scriptText
+            scriptElement.onload = resolve
+            document.body.appendChild(scriptElement)
+        })
     }
 
 
