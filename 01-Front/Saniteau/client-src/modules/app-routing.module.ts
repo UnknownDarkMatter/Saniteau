@@ -23,6 +23,7 @@ import { DelegationPayeComponent } from '../components/delegation/delegation-pay
 import { AbonneLeftNavBarComponent } from '../components/navigation/abonne-left-navbar.component';
 import { AbonneListeComponent } from '../components/abonne/abonne-liste.component';
 import { FacturationListeComponent } from '../components/facturation/facturation-liste.component';
+import { PaiementSuccessComponent } from '../components/paiement/paiement-success.component';
 
 
 const routes: Routes = [
@@ -49,6 +50,7 @@ const routes: Routes = [
     { path: 'abonne-left-navbar', canActivate: [AuthGuard], outlet: "leftnavbaroutlet", component: AbonneLeftNavBarComponent },
     { path: 'abonne-liste', canActivate: [AuthGuard], component: AbonneListeComponent },
     { path: 'abonne-facturation', canActivate: [AuthGuard], component: FacturationListeComponent },
+    { path: 'paiement-success', canActivate: [AuthGuard], component: PaiementSuccessComponent },
 
     { path: '**', redirectTo: 'dashboard' }
 ];

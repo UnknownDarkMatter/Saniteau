@@ -13,6 +13,8 @@ import { FacturationLigne } from '../../model/facturation/FacturationLigne';
 import { PaypalOrder } from '../../model/paiement/PaypalOrder';
 import { RequestReponse } from '../../model/RequestReponse';
 import { Router } from '@angular/router';
+import { MatDialog } from '@angular/material/dialog';
+import { DialogPayementRecordingComponent } from '../dialogs/dialog-payment-recording.component';
 declare const paypal: any;
 
 
@@ -32,7 +34,8 @@ export class FacturationListeComponent implements OnInit {
     constructor(@Inject(AppService) public appService: AppService,
         @Inject(HttpService) public httpService: HttpService,
         @Inject(Router) private router: Router,
-        @Inject(MatSnackBar) public snackBar: MatSnackBar) {
+        @Inject(MatSnackBar) public snackBar: MatSnackBar,
+        @Inject(MatDialog) public dialog: MatDialog    ) {
         this.toogleAbonneCampagneLabel = 'Grouper par facturations';
         this.grouperParAbonne = false;
    }
@@ -118,7 +121,7 @@ export class FacturationListeComponent implements OnInit {
         let facturationMontantAsString = this.appService.numberToString(this.getFacturationAmountEuros(facturation), 2);
 
         Swal.fire({
-            title: 'Paiement de ' + facturationMontantAsString,
+            title: 'Paiement de ' + facturationMontantAsString.replace('.', ',') + ' €',
             width: '80%',
             showCancelButton: true,
             showConfirmButton: false,
@@ -131,9 +134,7 @@ export class FacturationListeComponent implements OnInit {
         //https://developer.paypal.com/docs/checkout/integrate/
         let clientId: string = 'AcZ2w1FzoK4FurjtjHHjJMTQIo0eJuiHcDNVMojRiWlXxTMKwrl-BMTVWnuLD9_MmEEx7tZNTm8NbQ9n';
         this.loadExternalScript("https://www.paypal.com/sdk/js?client-id=" + clientId + "&currency=EUR&intent=capture").then(() => {
-            this.loadExternalScript("https://www.paypal.com/sdk/js?client-id=" + clientId + "&currency=EUR&intent=capture").then(() => {//todo:voir comment éviter de devoir charger 2 fois le script pour éviter le bug d'affichage
-
-                this.loadInlineScript(`
+            this.loadInlineScript(`
 paypal.Buttons({
     createOrder: function(data, actions) {
       return actions.order.create({
@@ -172,15 +173,15 @@ paypal.Buttons({
 
   }).render('#paypal-buttons');
 `);
-
-
-            });
         });
 
 
     }
 
     enregistrePayment(paymentDetails: any, idFacturation: number) {
+        Swal.close();
+        const dialogRef = this.dialog.open(DialogPayementRecordingComponent, {});
+
         let paypalOrder: PaypalOrder = new PaypalOrder();
         paypalOrder.orderId = paymentDetails.id;
         paypalOrder.idFacturation = idFacturation;
@@ -188,12 +189,15 @@ paypal.Buttons({
         observable.subscribe(data => {
             let requestResponse: RequestReponse = data as RequestReponse;
             if (requestResponse.isError) {
+                dialogRef.close();
                 this.snackBar.open('Erreur : ' + requestResponse.errorMessage, '', { duration: 3000 });
                 return;
             }
-            Swal.close();
-            this.router.navigate(['dashboard']);
+            dialogRef.close();
+            this.snackBar.open('Le paiement a réussi', '', { duration: 3000 });
+            this.router.navigate(['paiement-success']);
         }, error => {
+            dialogRef.close();
             this.snackBar.open('Erreur ' + error.status + ' : ' + error.statusText, '', { duration: 3000 });
         });
         

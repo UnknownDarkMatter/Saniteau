@@ -38,6 +38,7 @@ import { LoginFormComponent } from '../components/account/login-form.component';
 import { LoginDialogComponent } from '../components/account/login-dialog.component';
 import { DialogConfirmComponent } from '../components/dialogs/dialog-confirm.component';
 import { DialogInfoComponent } from '../components/dialogs/dialog-info.component';
+import { DialogPayementRecordingComponent } from '../components/dialogs/dialog-payment-recording.component';
 
 import { DashboardLeftNavBarComponent } from '../components/navigation/dashboard-left-navbar.component';
 import { DashboardComponent } from '../components/dashboard/dashboard.component';
@@ -63,6 +64,7 @@ import { AbonneComponent } from '../components/abonne/abonne.component';
 import { FacturationListeComponent } from '../components/facturation/facturation-liste.component';
 import { FacturationAbonneComponent } from '../components/facturation/abonne-facturation.component';
 import { FacturationCampagneComponent } from '../components/facturation/campagne-facturation.component';
+import { PaiementSuccessComponent } from '../components/paiement/paiement-success.component';
 
 
 //import * as ngCore from '@angular/core';
@@ -77,8 +79,8 @@ import { FacturationCampagneComponent } from '../components/facturation/campagne
         CompteursLeftNavBarComponent, CompteursListComponent, CompteursReleveComponent, CompteurComponent, DialogAppairageComponent,
         DelegationLeftNavBarComponent, DelegationAccueilComponent, DelegationPayeComponent,
         AbonneComponent, AbonneLeftNavBarComponent, AbonneListeComponent, 
-        FacturationListeComponent, FacturationAbonneComponent, FacturationCampagneComponent,
-        DialogSpinnerComponent,
+        FacturationListeComponent, FacturationAbonneComponent, FacturationCampagneComponent, PaiementSuccessComponent,
+        DialogSpinnerComponent, DialogPayementRecordingComponent
   ],
     imports: [
         CommonModule,
@@ -118,8 +120,8 @@ import { FacturationCampagneComponent } from '../components/facturation/campagne
     providers: [],
     bootstrap: [AppComponent],
     entryComponents: [
-        AccountCreateComponent, LoginDialogComponent, DialogConfirmComponent, DialogInfoComponent, DialogSpinnerComponent,
-        DialogAppairageComponent]
+        AccountCreateComponent, LoginDialogComponent, DialogConfirmComponent, DialogInfoComponent, DialogSpinnerComponent, 
+        DialogAppairageComponent, DialogPayementRecordingComponent]
 })
 export class AppModule { }  
 

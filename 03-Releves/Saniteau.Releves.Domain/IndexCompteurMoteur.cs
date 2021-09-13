@@ -8,8 +8,8 @@ namespace Saniteau.Releves.Domain
 {
     public class IndexCompteurMoteur
     {
-        public const int IncrémentMinValue = 100;
-        public const int IncrémentMaxValue = 1000;
+        public const int IncrémentMinValue = 5;
+        public const int IncrémentMaxValue = 15;
 
         /// <summary>
         /// Augmente les index des compteurs à partir d'une simulation aléatoire.
