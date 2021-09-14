@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Saniteau.Infrastructure.DataContext;
 
 namespace Saniteau.Infrastructure.DataContext.Migrations
 {
     [DbContext(typeof(SaniteauDbContext))]
-    partial class SaniteauDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210914112627_Add-Payment-Table")]
+    partial class AddPaymentTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

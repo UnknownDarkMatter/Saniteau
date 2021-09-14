@@ -4,6 +4,9 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using DbUp;
+using DbUp.Engine;
+using log4net;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -27,6 +30,8 @@ namespace Saniteau
         private const string SecretKey = "iNivDmHLpUA223sqsfhqGbMRdRj1PVkH"; // todo: get this from somewhere secure
         private readonly SymmetricSecurityKey _signingKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(SecretKey));
 
+        private static ILog Log = LogManager.GetLogger(typeof(Startup));
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -37,6 +42,9 @@ namespace Saniteau
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            string connectionString = Configuration.GetConnectionString("DefaultConnection");
+            UpgradeDatabase(connectionString);
+
             var jwtAppSettingOptions = Configuration.GetSection(nameof(JwtIssuerOptions));
 
             //database
@@ -47,7 +55,7 @@ namespace Saniteau
             services.AddScoped<PaymentService>();
             services.AddScoped<HttpMethodCaller>();
 
-            services.AddDbContext<SaniteauDbContext>(opt => opt.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            services.AddDbContext<SaniteauDbContext>(opt => opt.UseSqlServer(connectionString));
             services.AddScoped<SaniteauDbContext>();
             services.AddScoped<IDbContextFactory, SaniteauDbContextFactory>();
 
@@ -153,6 +161,45 @@ namespace Saniteau
                     name: "default",
                     pattern: "{controller=Dashboard}/{action=Index}/{id?}");
             });
+        }
+
+        private void UpgradeDatabase(string connectionString)
+        {
+            var engine = DeployChanges.To
+            .SqlDatabase(connectionString)
+            .WithScriptsEmbeddedInAssembly(typeof(SaniteauDbContext).Assembly)
+            .LogToAutodetectedLog()
+            .Build();
+
+            Log.Debug("DISCOVERED SCRIPTS :");
+            foreach (SqlScript discoveredScript in engine.GetDiscoveredScripts())
+            {
+                Log.Debug(discoveredScript.Name);
+            }
+            Log.Debug("SCRIPTS TO EXECUTE :");
+            foreach (SqlScript scriptToExecute in engine.GetScriptsToExecute())
+            {
+                Log.Debug(scriptToExecute.Name);
+            }
+
+            bool isUpgradeRequired = engine.IsUpgradeRequired();
+            if (!isUpgradeRequired)
+            {
+                Log.Info("Database CaNavire is already up to date.");
+                return;
+            }
+
+            Log.Info("Database CaNavire need an upgrade.");
+
+            DatabaseUpgradeResult migrationResult = engine.PerformUpgrade();
+
+            if (!migrationResult.Successful)
+            {
+                Log.Fatal("Database CaNavire upgrade failed.", migrationResult.Error);
+                throw new Exception("Database CaNavire upgrade failed.", migrationResult.Error);
+            }
+
+            Log.Info("Database CaNavire is up to date.");
         }
     }
 }

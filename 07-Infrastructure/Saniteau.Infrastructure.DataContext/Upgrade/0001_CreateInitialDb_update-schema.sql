@@ -1,6 +1,6 @@
 ﻿IF OBJECT_ID(N'[__EFMigrationsHistory]') IS NULL
 BEGIN
-    CREATE TABLE [__EFMigrationsHistory] (
+    CREATE TABLE [dbo].[__EFMigrationsHistory] (
         [MigrationId] nvarchar(150) NOT NULL,
         [ProductVersion] nvarchar(32) NOT NULL,
         CONSTRAINT [PK___EFMigrationsHistory] PRIMARY KEY ([MigrationId])
@@ -8,8 +8,6 @@ BEGIN
 END;
 GO
 
-BEGIN TRANSACTION;
-GO
 
 CREATE TABLE [Abonnés] (
     [IdAbonné] int NOT NULL IDENTITY,
@@ -274,10 +272,8 @@ GO
 CREATE UNIQUE INDEX [UserNameIndex] ON [Users] ([NormalizedUserName]) WHERE [NormalizedUserName] IS NOT NULL;
 GO
 
-INSERT INTO [__EFMigrationsHistory] ([MigrationId], [ProductVersion])
+INSERT INTO [dbo].[__EFMigrationsHistory] ([MigrationId], [ProductVersion])
 VALUES (N'20210217125532_CreateDb', N'5.0.2');
 GO
 
-COMMIT;
-GO
 

@@ -5,7 +5,15 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="RollBack\**" />
+    <EmbeddedResource Remove="RollBack\**" />
+    <None Remove="RollBack\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Remove="appsettings.json" />
+    <None Remove="Upgrade\0001_CreateInitialDb_update-schema.sql" />
+    <None Remove="Upgrade\0002_20210914112627_Add-Payment-Table.sql" />
   </ItemGroup>
 
   <ItemGroup>
@@ -14,6 +22,11 @@
       <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Upgrade\0001_CreateInitialDb_update-schema.sql" />
+    <EmbeddedResource Include="Upgrade\0002_20210914112627_Add-Payment-Table.sql" />
   </ItemGroup>
 
   <ItemGroup>
@@ -32,10 +45,6 @@
   <ItemGroup>
     <ProjectReference Include="..\..\08-Common\Saniteau.Common\Saniteau.Common.csproj" />
     <ProjectReference Include="..\Saniteau.Infrastructure.DataModel\Saniteau.Infrastructure.DataModel.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="RollBack\" />
   </ItemGroup>
 
 </Project>

@@ -28,6 +28,7 @@ namespace Saniteau.Infrastructure.DataContext
         public DbSet<PayeDelegantLigneModel> PayesDelegantLignes { get; set; }
         public DbSet<IndexPayéParDelegantModel> IndexesPayésParDelegant { get; set; }
         public DbSet<FacturePayeeAuDelegantModel> FacturesPayeesAuDelegant { get; set; }
+        public DbSet<PaymentModel> Payments { get; set; }
 
         public SaniteauDbContext() : base()
         {
