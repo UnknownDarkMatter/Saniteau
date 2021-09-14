@@ -119,6 +119,7 @@ export class FacturationListeComponent implements OnInit {
         let facturation = this.getFacturationsParId(idFacturationAsNumber);
         let idAbonneAsNumber: number = + facturation.abonne.idAbonne;
         let facturationMontantAsString = this.appService.numberToString(this.getFacturationAmountEuros(facturation), 2);
+        window['myFacturationListeComponent'] = this; //todo:voir comment créer le bouton en typescript plutot que d'avoir une reference à window : le loadInlineScript ne permet pas de passer des objets car il set la propriété text de l'objet script
 
         Swal.fire({
             title: 'Paiement de ' + facturationMontantAsString.replace('.', ',') + ' €',
@@ -128,9 +129,45 @@ export class FacturationListeComponent implements OnInit {
             allowOutsideClick: false,
             html: '<span>Test cards : Mastercard 2223016768739313, Visa 4012888888881881</span> <br/><div id="paypal-buttons"></div>'
         });
+        this.addPaypalCheckoutButtons(facturationMontantAsString, facturation, idFacturation);
+        Swal.close();
+        Swal.fire({
+            title: 'Paiement de ' + facturationMontantAsString.replace('.', ',') + ' €',
+            width: '80%',
+            showCancelButton: true,
+            showConfirmButton: false,
+            allowOutsideClick: false,
+            html: '<span>Test cards : Mastercard 2223016768739313, Visa 4012888888881881</span> <br/><div id="paypal-buttons"></div>'
+        });
+        this.addPaypalCheckoutButtons(facturationMontantAsString, facturation, idFacturation);
+    }
 
-        window['myFacturationListeComponent'] = this; //todo:voir comment créer le bouton en typescript plutot que d'avoir une reference à window : le loadInlineScript ne permet pas de passer des objets car il set la propriété text de l'objet script
+    enregistrePayment(paymentDetails: any, idFacturation: number) {
+        Swal.close();
+        const dialogRef = this.dialog.open(DialogPayementRecordingComponent, {});
 
+        let paypalOrder: PaypalOrder = new PaypalOrder();
+        paypalOrder.orderId = paymentDetails.id;
+        paypalOrder.idFacturation = idFacturation;
+        let observable = this.httpService.postAsObservable('/Payment/EnregistrePayment', paypalOrder);
+        observable.subscribe(data => {
+            let requestResponse: RequestReponse = data as RequestReponse;
+            if (requestResponse.isError) {
+                dialogRef.close();
+                this.snackBar.open('Erreur : ' + requestResponse.errorMessage, '', { duration: 3000 });
+                return;
+            }
+            dialogRef.close();
+            this.snackBar.open('Le paiement a réussi', '', { duration: 3000 });
+            this.router.navigate(['paiement-success']);
+        }, error => {
+            dialogRef.close();
+            this.snackBar.open('Erreur ' + error.status + ' : ' + error.statusText, '', { duration: 3000 });
+        });
+        
+    }
+
+    addPaypalCheckoutButtons(facturationMontantAsString: string, facturation: Facturation, idFacturation:string) {
         //https://developer.paypal.com/docs/checkout/integrate/
         let clientId: string = 'AcZ2w1FzoK4FurjtjHHjJMTQIo0eJuiHcDNVMojRiWlXxTMKwrl-BMTVWnuLD9_MmEEx7tZNTm8NbQ9n';
         this.loadExternalScript("https://www.paypal.com/sdk/js?client-id=" + clientId + "&currency=EUR&intent=capture").then(() => {
@@ -174,33 +211,6 @@ paypal.Buttons({
   }).render('#paypal-buttons');
 `);
         });
-
-
-    }
-
-    enregistrePayment(paymentDetails: any, idFacturation: number) {
-        Swal.close();
-        const dialogRef = this.dialog.open(DialogPayementRecordingComponent, {});
-
-        let paypalOrder: PaypalOrder = new PaypalOrder();
-        paypalOrder.orderId = paymentDetails.id;
-        paypalOrder.idFacturation = idFacturation;
-        let observable = this.httpService.postAsObservable('/Payment/EnregistrePayment', paypalOrder);
-        observable.subscribe(data => {
-            let requestResponse: RequestReponse = data as RequestReponse;
-            if (requestResponse.isError) {
-                dialogRef.close();
-                this.snackBar.open('Erreur : ' + requestResponse.errorMessage, '', { duration: 3000 });
-                return;
-            }
-            dialogRef.close();
-            this.snackBar.open('Le paiement a réussi', '', { duration: 3000 });
-            this.router.navigate(['paiement-success']);
-        }, error => {
-            dialogRef.close();
-            this.snackBar.open('Erreur ' + error.status + ' : ' + error.statusText, '', { duration: 3000 });
-        });
-        
     }
 
     private loadExternalScript(scriptUrl: string) {
