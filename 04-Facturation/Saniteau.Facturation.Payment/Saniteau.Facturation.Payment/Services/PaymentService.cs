@@ -1,5 +1,5 @@
-﻿using Saniteau.Facturation.Payment.Dto.Paypal;
-using Saniteau.Facturation.Payment.Dto.Saniteau;
+﻿using Saniteau.Facturation.Domain;
+using Saniteau.Facturation.Payment.Dto.Paypal;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Saniteau.Facturation.Payment.Services
 {
-    public class PaymentService
+    public class PaymentService : IPaymentService
     {
         private readonly AccessTokenManager _accessTokenManager;
         private readonly HttpMethodCaller _httpMethodCaller;

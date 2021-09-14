@@ -133,16 +133,6 @@ export class FacturationListeComponent implements OnInit {
             html: '<span>Test cards : Mastercard 2223016768739313, Visa 4012888888881881</span> <br/><div id="paypal-buttons"></div>'
         });
         this.addPaypalCheckoutButtons(facturationMontantAsString, facturation, idFacturation);
-        Swal.close();
-        Swal.fire({
-            title: 'Paiement de ' + facturationMontantAsString.replace('.', ',') + ' €',
-            width: '80%',
-            showCancelButton: true,
-            showConfirmButton: false,
-            allowOutsideClick: false,
-            html: '<span>Test cards : Mastercard 2223016768739313, Visa 4012888888881881</span> <br/><div id="paypal-buttons"></div>'
-        });
-        this.addPaypalCheckoutButtons(facturationMontantAsString, facturation, idFacturation);
     }
 
     enregistrePayment(paymentDetails: any, idFacturation: number) {

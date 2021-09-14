@@ -9,6 +9,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Saniteau.Facturation.Contract.Commands;
+using Saniteau.Facturation.Application.Handlers;
 
 namespace Saniteau.Controllers
 {
@@ -27,25 +29,18 @@ namespace Saniteau.Controllers
         [HttpPost]
         public async Task<ActionResult> EnregistrePayment([FromBody] PaypalOrder paypalOrder)
         {
-            var getOrderResult = await _paymentService.CheckIfPaymentIsValid(paypalOrder.OrderId, paypalOrder.IdFacturation);
+            var getAllFacturationsCommand = new EnregistrePaymentCommand(paypalOrder.OrderId, paypalOrder.IdFacturation);
+            var getAllFacturationsCommandHandler = new EnregistrePaymentCommandHandler(_paymentService, _référentielFacturation);
+            var getOrderResult = await getAllFacturationsCommandHandler.HandleAsync(getAllFacturationsCommand);
             if (getOrderResult.IsError)
             {
                 return new JsonResult(new RequestResponse(true, getOrderResult.ErrorMessage));
             }
             if (!getOrderResult.Result)
             {
-                return new JsonResult(new RequestResponse(true, "Le paiement n'a pas été exécuté"));
+                return new JsonResult(new RequestResponse(true, "Le paiement n'a pas été exécuté par paypal"));
             }
-            try
-            {
-                var facturation = _référentielFacturation.GetFacturation(IdFacturation.Parse(paypalOrder.IdFacturation));
-                facturation.SetFacturationPayée(true);
-                _référentielFacturation.EnregistrerFacturation(facturation);
-            }
-            catch(Exception ex)
-            {
-                return new JsonResult(new RequestResponse(true, ex.Message));
-            }
+
             return new JsonResult(new RequestResponse(false, ""));
         }
 

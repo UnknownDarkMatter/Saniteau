@@ -6,11 +6,16 @@
 
   <ItemGroup>
     <Folder Include="Dto\Authentication\" />
+    <Folder Include="Dto\Saniteau\" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.Http" Version="5.0.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Saniteau.Facturation.Domain\Saniteau.Facturation.Domain.csproj" />
   </ItemGroup>
 
 </Project>
