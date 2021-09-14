@@ -14,6 +14,6 @@ export class PaiementSuccessComponent implements OnInit {
 
 
     ngOnInit(): void {
-        this.router.navigate([{ outlets: { leftnavbaroutlet: ['abonne-left-navbar'] } }]);
+        this.router.navigate([{ outlets: { leftnavbaroutlet: ['dashboard-left-navbar'] } }]);
     }
 }
