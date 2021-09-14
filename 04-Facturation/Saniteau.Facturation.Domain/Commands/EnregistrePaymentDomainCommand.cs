@@ -35,11 +35,20 @@ namespace Saniteau.Facturation.Domain.Commands
                 return result;
             }
 
-            EnregistreFacturationPayee(référentielFacturation, référentielPaiement);
+            try
+            {
+                EnregistreFacturationPayee(référentielFacturation, référentielPaiement);
 
-            result.Result = true;
-            result.IsError = false;
-            result.ErrorMessage = "";
+                result.Result = true;
+                result.IsError = false;
+                result.ErrorMessage = "";
+            }
+            catch (Exception ex)
+            {
+                result.IsError = true;
+                result.Result = false;
+                result.ErrorMessage = ex.Message;
+            }
             return result;
         }
 
