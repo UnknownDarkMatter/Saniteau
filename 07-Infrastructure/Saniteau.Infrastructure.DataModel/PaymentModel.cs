@@ -24,5 +24,16 @@ namespace Saniteau.Infrastructure.DataModel
         public PaymentStatut PaymentStatut { get; set; }
 
         public DateTime PaymentDate { get; set; }
+
+        public PaymentModel() { }
+
+        public PaymentModel(int idPaiement, int idFacturation, string paypalOrderId, PaymentStatut paymentStatut, DateTime paymentDate)
+        {
+            IdPayment = idPaiement;
+            IdFacturation = idFacturation;
+            PaypalOrderId = paypalOrderId;
+            PaymentStatut = paymentStatut;
+            PaymentDate = paymentDate;
+        }
     }
 }

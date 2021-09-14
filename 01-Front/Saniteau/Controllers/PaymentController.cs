@@ -19,18 +19,21 @@ namespace Saniteau.Controllers
     { 
         private readonly PaymentService _paymentService;
         private readonly RéférentielFacturationOnEfCore _référentielFacturation;
+        private readonly RéférentielPaiementOnEfCore _référentielPaiement;
 
-        public PaymentController(PaymentService paymentService, RéférentielFacturationOnEfCore référentielFacturation)
+        public PaymentController(PaymentService paymentService, RéférentielFacturationOnEfCore référentielFacturation,
+            RéférentielPaiementOnEfCore référentielPaiement)
         {
             _paymentService = paymentService ?? throw new ArgumentNullException(nameof(paymentService));
             _référentielFacturation = référentielFacturation ?? throw new ArgumentNullException(nameof(référentielFacturation));
+            _référentielPaiement = référentielPaiement ?? throw new ArgumentNullException(nameof(référentielPaiement));
         }
 
         [HttpPost]
         public async Task<ActionResult> EnregistrePayment([FromBody] PaypalOrder paypalOrder)
         {
             var getAllFacturationsCommand = new EnregistrePaymentCommand(paypalOrder.OrderId, paypalOrder.IdFacturation);
-            var getAllFacturationsCommandHandler = new EnregistrePaymentCommandHandler(_paymentService, _référentielFacturation);
+            var getAllFacturationsCommandHandler = new EnregistrePaymentCommandHandler(_paymentService, _référentielFacturation, _référentielPaiement);
             var getOrderResult = await getAllFacturationsCommandHandler.HandleAsync(getAllFacturationsCommand);
             if (getOrderResult.IsError)
             {

@@ -139,6 +139,7 @@ namespace Saniteau
             services.AddScoped<Facturation.Repository.RéférentielFacturationOnEfCore>();
             services.AddScoped<Facturation.Repository.RéférentielIndexesCompteursOnEfCore>();
             services.AddScoped<Facturation.Repository.RéférentielPDLOnEfCore>();
+            services.AddScoped<Facturation.Repository.RéférentielPaiementOnEfCore>();
 
             services.AddControllersWithViews();
         }

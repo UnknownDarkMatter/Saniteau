@@ -13,12 +13,15 @@ namespace Saniteau.Facturation.Application.Handlers
     public class EnregistrePaymentCommandHandler : ActionHandlerBase<EnregistrePaymentCommand, EnregistrePaymentDomainCommand, Contract.Model.ApiResponse<bool>>
     {
         private readonly RéférentielFacturation _référentielFacturation;
+        private readonly RéférentielPaiement _référentielPaiement;
         private readonly IPaymentService _paymentService;
 
-        public EnregistrePaymentCommandHandler(IPaymentService paymentService, RéférentielFacturation référentielFacturation)
+        public EnregistrePaymentCommandHandler(IPaymentService paymentService, RéférentielFacturation référentielFacturation,
+            RéférentielPaiement référentielPaiement)
             : base(new EnregistrePaymentCommandMapper())
         {
             _référentielFacturation = référentielFacturation ?? throw new ArgumentNullException(nameof(référentielFacturation));
+            _référentielPaiement = référentielPaiement ?? throw new ArgumentNullException(nameof(référentielPaiement));
             _paymentService = paymentService ?? throw new ArgumentNullException(nameof(_paymentService));
         }
 
@@ -35,7 +38,7 @@ namespace Saniteau.Facturation.Application.Handlers
 
         protected async override Task<Contract.Model.ApiResponse<bool>> HandleAsync(EnregistrePaymentDomainCommand action)
         {
-            var paymentEnregistrementResult = await action.EnregistrePayment(_paymentService, _référentielFacturation);
+            var paymentEnregistrementResult = await action.EnregistrePayment(_paymentService, _référentielFacturation, _référentielPaiement);
             return ApiResponseMapper<bool>.Map(paymentEnregistrementResult);
         }
     }
