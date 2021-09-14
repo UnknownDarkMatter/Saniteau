@@ -6,7 +6,6 @@
 
   <ItemGroup>
     <Folder Include="Dto\Authentication\" />
-    <Folder Include="Dto\Saniteau\" />
   </ItemGroup>
 
   <ItemGroup>

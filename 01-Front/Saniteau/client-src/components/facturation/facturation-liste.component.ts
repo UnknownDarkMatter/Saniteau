@@ -152,7 +152,7 @@ export class FacturationListeComponent implements OnInit {
                 return;
             }
             dialogRef.close();
-            this.snackBar.open('Le paiement a réussi', '', { duration: 3000 });
+            //this.snackBar.open('Le paiement a réussi', '', { duration: 3000 });
             this.router.navigate(['paiement-success']);
         }, error => {
             dialogRef.close();
