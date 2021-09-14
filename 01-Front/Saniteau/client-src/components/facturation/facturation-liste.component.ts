@@ -30,6 +30,7 @@ export class FacturationListeComponent implements OnInit {
     private facturations: Facturation[] =[];
     public facturationsParAbonnes: FacturationParAbonne[] = [];
     public facturationsParCampagnes: FacturationParCampagne[] = [];
+    public errorMessage: string;
 
     constructor(@Inject(AppService) public appService: AppService,
         @Inject(HttpService) public httpService: HttpService,
@@ -41,6 +42,7 @@ export class FacturationListeComponent implements OnInit {
    }
     ngOnInit(): void {
         this.getFacturations();
+        this.errorMessage = "";
     }
 
     toogleAbonneCampagne(event: MatSlideToggleChange) {
@@ -119,7 +121,8 @@ export class FacturationListeComponent implements OnInit {
         let facturation = this.getFacturationsParId(idFacturationAsNumber);
         let idAbonneAsNumber: number = + facturation.abonne.idAbonne;
         let facturationMontantAsString = this.appService.numberToString(this.getFacturationAmountEuros(facturation), 2);
-        window['myFacturationListeComponent'] = this; //todo:voir comment créer le bouton en typescript plutot que d'avoir une reference à window : le loadInlineScript ne permet pas de passer des objets car il set la propriété text de l'objet script
+        window['myFacturationListeComponent'] = this; //todo:voir comment créer le bouton en typescript plutot que d'avoir une reference à window
+        this.errorMessage = "";
 
         Swal.fire({
             title: 'Paiement de ' + facturationMontantAsString.replace('.', ',') + ' €',
@@ -154,7 +157,8 @@ export class FacturationListeComponent implements OnInit {
             let requestResponse: RequestReponse = data as RequestReponse;
             if (requestResponse.isError) {
                 dialogRef.close();
-                this.snackBar.open('Erreur : ' + requestResponse.errorMessage, '', { duration: 3000 });
+                this.snackBar.open(requestResponse.errorMessage, '', { duration: 3000 });
+                this.errorMessage = requestResponse.errorMessage;
                 return;
             }
             dialogRef.close();

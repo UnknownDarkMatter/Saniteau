@@ -3,6 +3,10 @@
 </div>
 <mat-card>
     <div class="main-page-card-wrapper">
+        <div style="display: flex" class="mat-error">
+            <span [ngClass]="{'errorMessageFacturationPaiement' : errorMessage != ''}">{{errorMessage}}</span>
+        </div>
+        <div style="clear:both;"></div>
         <div class="lancer-facturation-wrapper">
             <img src="../../../wwwroot/img/facturation.jpg" alt="Facturation" class="img-facturation">
             <div class="button-lancer-facturation">
@@ -29,7 +33,7 @@
                             <span style="margin-top:auto;margin-bottom:auto">
                                 Facture de {{facturation.abonne.prenom}} {{facturation.abonne.nom}} d'un montant de {{getFacturationAmountEuros(facturation)}} {{(facturation.payee) ? 'payée' : 'non payée'}}
                             </span>
-                            <button mat-button [ngStyle]="{'display':(facturation.payee) ? 'none' : 'block' }"  (click)="payFacturation(facturation.idFacturation)">
+                            <button mat-button [ngStyle]="{'display':(facturation.payee) ? 'none' : 'block' }" (click)="payFacturation(facturation.idFacturation)">
                                 <mat-icon>attach_money</mat-icon>
                                 <span>Payer</span>
                             </button>

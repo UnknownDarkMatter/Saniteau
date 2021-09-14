@@ -59,7 +59,7 @@ namespace Saniteau.Facturation.Payment.Services
             }
             else
             {
-                throw new Exception($"Error while calling {url} : {response.StatusCode}, {response.ReasonPhrase}");
+                throw new Exception($"Error : {response.StatusCode}, {response.ReasonPhrase}");
             }
         }
 
@@ -92,7 +92,7 @@ namespace Saniteau.Facturation.Payment.Services
             }
             else
             {
-                throw new Exception($"Error while calling {url} : {response.StatusCode}, {response.ReasonPhrase}");
+                throw new Exception($"Error: {response.StatusCode}, {response.ReasonPhrase}");
             }
         }
 

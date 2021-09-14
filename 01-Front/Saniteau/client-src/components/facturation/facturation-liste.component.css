@@ -68,3 +68,9 @@ mat-card {
 .even {
     background-color: rgb(185, 216, 236) !important;
 }
+
+.errorMessageFacturationPaiement {
+    padding: 20px;
+    font-weight: bold;
+    font-size: large;
+}

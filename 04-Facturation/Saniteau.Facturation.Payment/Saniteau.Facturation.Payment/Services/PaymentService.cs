@@ -23,10 +23,7 @@ namespace Saniteau.Facturation.Payment.Services
         {
             try
             {
-                var accessToken = await _accessTokenManager.GetAccessToken();
-                string orderUrl = Constants.PaypalGetOrderUrl.Replace("[order_id]", orderId);
-                Dictionary<string, string> headers = new Dictionary<string, string>();
-                var createOrderResponse = await _httpMethodCaller.CallGetMethod<get_order_response>(orderUrl, headers, accessToken);
+                var createOrderResponse = await CallGetOrder<get_order_response>(orderId);
                 var response = new ApiResponse<bool>();
                 response.Result = createOrderResponse.status.ToUpper() == get_order_response.StatusCompleted;
                 return response;
@@ -38,6 +35,15 @@ namespace Saniteau.Facturation.Payment.Services
                 response.ErrorMessage = ex.Message;
                 return response;
             }
+        }
+
+        private async Task<TResult> CallGetOrder<TResult>(string orderId)
+        {
+            var accessToken = await _accessTokenManager.GetAccessToken();
+            string orderUrl = Constants.PaypalGetOrderUrl.Replace("[order_id]", orderId);
+            Dictionary<string, string> headers = new Dictionary<string, string>();
+            var createOrderResponse = await _httpMethodCaller.CallGetMethod<TResult>(orderUrl, headers, accessToken);
+            return createOrderResponse;
         }
 
     }

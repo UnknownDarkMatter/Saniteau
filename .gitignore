@@ -66,3 +66,4 @@
 /08-Common/Tests/Saniteau.Common.Tests/bin/Debug/netcoreapp3.1
 /04-Facturation/Saniteau.Facturation.Payment/Saniteau.Facturation.Payment/bin/Debug/netcoreapp3.1
 /04-Facturation/Saniteau.Facturation.Payment/Saniteau.Facturation.Payment/obj
+/01-Front/Saniteau/App_Data/SavedToken.json
