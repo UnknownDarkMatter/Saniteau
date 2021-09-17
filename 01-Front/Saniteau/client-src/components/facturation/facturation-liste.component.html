@@ -26,11 +26,15 @@
                 <mat-form-field appearance="fill">
                     <mat-label>Filtrage par abonné</mat-label>
                     <input type="text"
-                           placeholder="Dupont Jean"
+                           placeholder="Jean Dupont"
                            aria-label="Abonné"
                            matInput
-                           [matAutocomplete]="auto">
-                    <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete"  (optionSelected)="filterFacturationsByAbonne($event.option.value)">
+                           [matAutocomplete]="auto"
+                           [formControl] = "filterByAbonneControl"
+                           >
+                    <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete"  
+                                      (optionSelected)="filterFacturationsByAbonneOnOptionSelected($event.option.value)"
+                                      >
                         <mat-option *ngFor="let abonne of getAbonnes()" [value]="abonne.prenom + ' ' + abonne.nom">
                             {{abonne.prenom}} {{abonne.nom}}
                         </mat-option>

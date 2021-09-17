@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Inject } from '@angular/core';
+import { FormControl } from '@angular/forms';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Abonne } from '../../model/abonne/Abonne';
@@ -29,6 +30,8 @@ export class FacturationListeComponent implements OnInit {
     public facturationsParCampagnes: FacturationParCampagne[] = [];
     public errorMessage: string;
     public filterValueFacturationsByPayment: string;
+    public filterValueFacturationsByNomPrenomAbonne: string;
+    public filterByAbonneControl: FormControl = new FormControl();
 
     constructor(@Inject(AppService) public appService: AppService,
         @Inject(HttpService) public httpService: HttpService,
@@ -40,6 +43,9 @@ export class FacturationListeComponent implements OnInit {
         this.getFacturations();
         this.errorMessage = "";
         this.filterValueFacturationsByPayment = 'paye-non-paye';
+        this.filterByAbonneControl.valueChanges.subscribe(x => {
+            this.filterFacturationsByAbonneOnAutoCompleteClosed();
+        })
     }
 
     creerFacturations() {
@@ -251,7 +257,15 @@ paypal.Buttons({
     private filterFacturations() {
         var facturations: Facturation[] = [];
         for (let facturation of this.facturations) {
-            if (this.facturationMatchesPayeeFilter(facturation, this.filterValueFacturationsByPayment)) {
+            let addFacturation: boolean;
+            addFacturation = true;
+            if (!this.facturationMatchesPayeeFilter(facturation, this.filterValueFacturationsByPayment)) {
+                addFacturation = false;
+            }
+            if (!this.facturationMatchesAbonneFilter(facturation, this.filterValueFacturationsByNomPrenomAbonne)) {
+                addFacturation = false;
+            }
+            if (addFacturation) {
                 facturations.push(facturation);
             }
         }
@@ -260,6 +274,16 @@ paypal.Buttons({
 
     private filterFacturationsByPayment(filter) {
         this.filterValueFacturationsByPayment = filter;
+        this.filterFacturations();
+    }
+
+    private filterFacturationsByAbonneOnOptionSelected(nomPrenomAbonne) {
+        this.filterValueFacturationsByNomPrenomAbonne = nomPrenomAbonne;
+        this.filterFacturations();
+    }
+
+    private filterFacturationsByAbonneOnAutoCompleteClosed() {
+        this.filterValueFacturationsByNomPrenomAbonne = this.filterByAbonneControl.value;
         this.filterFacturations();
     }
 
@@ -280,8 +304,9 @@ paypal.Buttons({
         }
     }
 
-    private filterFacturationsByAbonne(abonne) {
-        alert(abonne);
+    private facturationMatchesAbonneFilter(facturation: Facturation, nomPrenomAbonne: string): boolean {
+        if (nomPrenomAbonne == "") { return true; }
+        return facturation.abonne.prenom + ' ' + facturation.abonne.nom == nomPrenomAbonne;
     }
 
     private getAbonnes(): Abonne[] {
@@ -293,4 +318,5 @@ paypal.Buttons({
         }
         return abonnnes;
     }
+
 }
