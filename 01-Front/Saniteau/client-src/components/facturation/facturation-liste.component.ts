@@ -25,10 +25,7 @@ declare const paypal: any;
      
 })
 export class FacturationListeComponent implements OnInit {
-    public toogleAbonneCampagneLabel: string;
-    public grouperParAbonne: boolean;
     private facturations: Facturation[] =[];
-    public facturationsParAbonnes: FacturationParAbonne[] = [];
     public facturationsParCampagnes: FacturationParCampagne[] = [];
     public errorMessage: string;
 
@@ -37,21 +34,10 @@ export class FacturationListeComponent implements OnInit {
         @Inject(Router) private router: Router,
         @Inject(MatSnackBar) public snackBar: MatSnackBar,
         @Inject(MatDialog) public dialog: MatDialog    ) {
-        this.toogleAbonneCampagneLabel = 'Grouper par facturations';
-        this.grouperParAbonne = false;
    }
     ngOnInit(): void {
         this.getFacturations();
         this.errorMessage = "";
-    }
-
-    toogleAbonneCampagne(event: MatSlideToggleChange) {
-        this.grouperParAbonne = event.checked;
-        if (this.grouperParAbonne) {
-            this.toogleAbonneCampagneLabel = 'Grouper par abonné';
-        } else {
-            this.toogleAbonneCampagneLabel = 'Grouper par facturations';
-        }
     }
 
     creerFacturations() {
@@ -80,26 +66,16 @@ export class FacturationListeComponent implements OnInit {
     }
 
     displayFacturations(facturations: Facturation[]) {
-        this.facturationsParAbonnes = [];
         this.facturationsParCampagnes = [];
-        for (var i = 0; i < facturations.length; i++) {
-            var facturation = facturations[i];
+        for (let facturation of facturations) {
             this.initializeFacturation(facturation);
-            let facturationParAbonne = this.getFacturationsParAbonne(facturation.abonne);
-            if (facturationParAbonne == null) {
-                facturationParAbonne = new FacturationParAbonne(facturation.abonne, []);
-                this.facturationsParAbonnes.push(facturationParAbonne);
-            }
             let facturationParCampagne = this.getFacturationsParCampagne(facturation.idCampagneFacturation);
             if (facturationParCampagne == null) {
                 facturationParCampagne = new FacturationParCampagne(facturation.idCampagneFacturation, facturation.dateFacturation, []);
                 this.facturationsParCampagnes.push(facturationParCampagne);
             }
         }
-        for (var i = 0; i < facturations.length; i++) {
-            var facturation = facturations[i];
-            let facturationParAbonne = this.getFacturationsParAbonne(facturation.abonne);
-            facturationParAbonne.facturations.push(facturation);
+        for (let facturation of facturations) {
             let facturationParCampagne = this.getFacturationsParCampagne(facturation.idCampagneFacturation);
             facturationParCampagne.facturations.push(facturation);
         }
@@ -233,16 +209,6 @@ paypal.Buttons({
         return amountEuros;
     }
 
-    private getFacturationsParAbonne(abonne: Abonne) {
-        for (var i = 0; i < this.facturationsParAbonnes.length; i++) {
-            var facturationParAbonne = this.facturationsParAbonnes[i];
-            if (facturationParAbonne.abonne.idAbonne == abonne.idAbonne) {
-                return facturationParAbonne;
-            }
-        }
-        return null;
-    }
-
     private getFacturationsParCampagne(idCampagneFacturation : number) {
         for (var i = 0; i < this.facturationsParCampagnes.length; i++) {
             var facturationParCampagne = this.facturationsParCampagnes[i];
@@ -278,5 +244,32 @@ paypal.Buttons({
     //Dynamically casted object does not have the method defined in the class, they just respect the contract and have the property
     private initializeFacturation(facturation: Facturation) {
         facturation.dateFacturationAsString = this.getFormatedDate(facturation.dateFacturation);
+    }
+
+    private filterFacturationsByPayment(filter) {
+        var facturations: Facturation[] = [];
+        for (let facturation of this.facturations) {
+            if (this.facturationMatchesPayeeFilter(facturation, filter)) {
+                facturations.push(facturation);
+            }
+        }
+        this.displayFacturations(facturations);
+    }
+
+    private facturationMatchesPayeeFilter(facturation: Facturation, filter: string): boolean {
+        switch (filter) {
+            case 'paye-non-paye': {
+                return true;
+            }
+            case 'paye': {
+                return facturation.payee;
+            }
+            case 'non-paye': {
+                return !facturation.payee;
+            }
+            default: {
+                break;
+            }
+        }
     }
 }

@@ -30,6 +30,9 @@ mat-card {
 .lancer-facturation-wrapper {
     display: flex;
 }
+.filtrage-facturation-wrapper {
+    display: flex;
+}
 
 .img-facturation {
     width: 200px;

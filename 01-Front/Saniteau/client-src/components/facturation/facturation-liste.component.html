@@ -10,16 +10,26 @@
         <div class="lancer-facturation-wrapper">
             <img src="../../../wwwroot/img/facturation.jpg" alt="Facturation" class="img-facturation">
             <div class="button-lancer-facturation">
-                <button mat-raised-button color="primary" (click)="creerFacturations()">Créer une facturation</button>
+                <button mat-raised-button color="primary" (click)="creerFacturations()">Lancer une campagne de facturation</button>
+            </div>
+        </div>
+        <div style="clear:both;"></div>
+        <div>
+            <h3>Critères de filtrage</h3>
+            <div>
+                <mat-radio-group aria-label="Paimement" style="display: flex; flex-direction: column">
+                    <mat-radio-button value="0" [checked]="true" (click)="filterFacturationsByPayment('paye-non-paye')">Payée et non payée</mat-radio-button>
+                    <mat-radio-button value="1" (click)="filterFacturationsByPayment('paye')">Payée</mat-radio-button>
+                    <mat-radio-button value="2" (click)="filterFacturationsByPayment('non-paye')">Non payée</mat-radio-button>
+                </mat-radio-group>
+            </div>
+            <div>
+
             </div>
         </div>
         <div class="facturation-wrapper">
-            <mat-slide-toggle color="primary" (change)="toogleAbonneCampagne($event)"><h4>{{toogleAbonneCampagneLabel}}</h4></mat-slide-toggle>
-            <div *ngIf="grouperParAbonne" class="abonne-campagne-content">
-                <label>Factures par abonnés</label>
-            </div>
-            <div *ngIf="!grouperParAbonne" class="abonne-campagne-content">
-                <label>Factures par création de facturations</label>
+            <div class="abonne-campagne-content">
+                <h3>Factures par campagnes de facturations</h3>
                 <mat-accordion *ngFor="let facturationParCampagne of facturationsParCampagnes">
                     <mat-expansion-panel class="facturation-ligne">
                         <mat-expansion-panel-header>
