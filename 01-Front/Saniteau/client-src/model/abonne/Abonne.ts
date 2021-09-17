@@ -23,4 +23,7 @@ export class Abonne {
         this.codePostal = codePostal;
     }
 
+    public nameToString(): string {
+        return this.nom + ' ' + this.prenom;
+    }
 }

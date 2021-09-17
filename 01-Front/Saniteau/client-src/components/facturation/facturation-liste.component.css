@@ -77,3 +77,12 @@ mat-card {
     font-weight: bold;
     font-size: large;
 }
+
+
+@media screen and (min-width: 850px) {
+    #filters-campagne-facturation {
+        display: grid;
+        grid-template-columns: auto auto 1fr;
+        column-gap: 5%;
+    }
+}

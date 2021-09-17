@@ -28,6 +28,7 @@ export class FacturationListeComponent implements OnInit {
     private facturations: Facturation[] =[];
     public facturationsParCampagnes: FacturationParCampagne[] = [];
     public errorMessage: string;
+    public filterValueFacturationsByPayment: string;
 
     constructor(@Inject(AppService) public appService: AppService,
         @Inject(HttpService) public httpService: HttpService,
@@ -38,6 +39,7 @@ export class FacturationListeComponent implements OnInit {
     ngOnInit(): void {
         this.getFacturations();
         this.errorMessage = "";
+        this.filterValueFacturationsByPayment = 'paye-non-paye';
     }
 
     creerFacturations() {
@@ -246,14 +248,19 @@ paypal.Buttons({
         facturation.dateFacturationAsString = this.getFormatedDate(facturation.dateFacturation);
     }
 
-    private filterFacturationsByPayment(filter) {
+    private filterFacturations() {
         var facturations: Facturation[] = [];
         for (let facturation of this.facturations) {
-            if (this.facturationMatchesPayeeFilter(facturation, filter)) {
+            if (this.facturationMatchesPayeeFilter(facturation, this.filterValueFacturationsByPayment)) {
                 facturations.push(facturation);
             }
         }
         this.displayFacturations(facturations);
+    }
+
+    private filterFacturationsByPayment(filter) {
+        this.filterValueFacturationsByPayment = filter;
+        this.filterFacturations();
     }
 
     private facturationMatchesPayeeFilter(facturation: Facturation, filter: string): boolean {
@@ -271,5 +278,19 @@ paypal.Buttons({
                 break;
             }
         }
+    }
+
+    private filterFacturationsByAbonne(abonne) {
+        alert(abonne);
+    }
+
+    private getAbonnes(): Abonne[] {
+        var abonnnes: Abonne[] = [];
+        for (let facturation of this.facturations) {
+            if (abonnnes.filter(abonne => abonne.idAbonne == facturation.abonne.idAbonne).length == 0) {
+                abonnnes.push(facturation.abonne);
+            }
+        }
+        return abonnnes;
     }
 }
