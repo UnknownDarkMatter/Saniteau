@@ -53,5 +53,9 @@ namespace Saniteau.Compteurs.Domain
             return indexes.OrderByDescending(m => m.DateIndex).ThenByDescending(m => m.IdIndex).FirstOrDefault();
         }
 
+        public void SetNuméroCompteur(ChampLibre numéroCompteur)
+        {
+            NuméroCompteur = numéroCompteur;
+        }
     }
 }

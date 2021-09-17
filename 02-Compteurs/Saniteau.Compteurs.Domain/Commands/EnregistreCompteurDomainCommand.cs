@@ -34,7 +34,7 @@ namespace Saniteau.Compteurs.Domain.Commands
             {
                 return référentielCompteurs.CréerCompteur(NuméroCompteur);
             }
-
+            compteur.SetNuméroCompteur(this.NuméroCompteur);
             return référentielCompteurs.EnregistrerCompteur(compteur);
         }
     }

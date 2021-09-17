@@ -7,6 +7,9 @@ import { DialogConfirmComponent, DialogConfirmResult } from '../dialogs/dialog-c
 import { DialogInfoComponent, } from '../dialogs/dialog-info.component';
 import { Compteur } from '../../model/compteur/Compteur';
 import { DialogAppairageComponent } from './dialog-appairage.component';
+import { FormControl } from '@angular/forms';
+import { EnregistreCompteurRequest } from '../../model/compteur/EnregistreCompteurRequest';
+import { RequestReponse } from '../../model/RequestReponse';
 
 @Component({
     selector: 'compteur',
@@ -19,11 +22,12 @@ export class CompteurComponent implements OnInit {
     @Output() updated = new EventEmitter<boolean>();
     isEditMode: boolean;
 
-    public idCompteur: number;
-    public numeroCompteur: string;
-    public compteurEstPose: boolean;
-    public compteurEstAppaire: boolean;
-    public pdlNumero: string;
+    private idCompteur: number;
+    private numeroCompteur: string;
+    private numeroCompteurControl: FormControl = new FormControl();
+    private compteurEstPose: boolean;
+    private compteurEstAppaire: boolean;
+    private pdlNumero: string;
 
     constructor(@Inject(AppService) public appService,
         @Inject(HttpService) public httpService,
@@ -36,6 +40,7 @@ export class CompteurComponent implements OnInit {
     ngOnInit(): void {
         this.idCompteur = this.compteur.idCompteur;
         this.numeroCompteur = this.compteur.numeroCompteur;
+        this.numeroCompteurControl.setValue(this.compteur.numeroCompteur);
         this.compteurEstPose = this.compteur.compteurEstPose;
         this.compteurEstAppaire = this.compteur.compteurEstAppaire;
         this.pdlNumero = this.compteur.pdl != null ? this.compteur.pdl.numeroPDL : '';
@@ -75,13 +80,28 @@ export class CompteurComponent implements OnInit {
             this.showInfoDialog('Mise à jour d\'un compteur', errorMessage);
             return;
         }
-        alert('todo : update d\'un compteur');
-
-        this.isEditMode = false;
+        let spinnerDialogRef = this.appService.showSpinner();
+        let enregistreCompteurRequest: EnregistreCompteurRequest = new EnregistreCompteurRequest(this.idCompteur, this.numeroCompteurControl.value);
+        let observable = this.httpService.postAsObservable('Compteurs/EnregistreCompteur', enregistreCompteurRequest);
+        observable.subscribe(data => {
+            let result: RequestReponse = data as RequestReponse;
+            if (result.isError) {
+                this.snackBar.open('Erreur : ' + result.errorMessage, '', { duration: 2000 });
+                return;
+            }
+            this.numeroCompteur = this.numeroCompteurControl.value;
+            this.snackBar.open('Le compteur a été enregistré', '', { duration: 2000 });
+            this.isEditMode = false;
+            spinnerDialogRef.close();
+        }, error => {
+            this.snackBar.open('Erreur ' + error.status + ' : ' + error.statusText, '', { duration: 3000 });
+            this.isEditMode = false;
+            spinnerDialogRef.close();
+        });
     }
 
     validateUpdate(): string {
-        if (this.isEmptyOrSpaces(this.numeroCompteur)) {
+        if (this.isEmptyOrSpaces(this.numeroCompteurControl.value)) {
             return 'Le nom de compteur est requis';
         }
         return '';

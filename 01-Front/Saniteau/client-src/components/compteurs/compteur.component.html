@@ -45,7 +45,14 @@
         </div>
         <div  class="compteur-container-single-column">
             <h4>
-                <b><span>{{numeroCompteur}}</span></b>
+                <mat-form-field appearance="fill" style="width: 100%">
+                    <mat-label>Nom du compteur</mat-label>
+                    <input type="text"
+                           placeholder="Compteur de Jean Dupont"
+                           aria-label="Nom du compteur"
+                           matInput
+                           [formControl]="numeroCompteurControl">
+                </mat-form-field>
             </h4>
             <div style="clear:both;"></div>
             <div style="width:100%;text-align:center">
