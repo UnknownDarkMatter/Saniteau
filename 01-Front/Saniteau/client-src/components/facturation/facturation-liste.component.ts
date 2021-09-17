@@ -5,12 +5,10 @@ import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Abonne } from '../../model/abonne/Abonne';
 import { Facturation } from '../../model/facturation/Facturation';
-import { FacturationParAbonne } from '../../model/facturation/FacturationParAbonne';
 import { FacturationParCampagne } from '../../model/facturation/FacturationParCampagne';
 import { AppService } from '../../services/AppService';
 import { HttpService } from '../../services/HttpService';
 import Swal from 'sweetalert2'
-import { FacturationLigne } from '../../model/facturation/FacturationLigne';
 import { PaypalOrder } from '../../model/paiement/PaypalOrder';
 import { RequestReponse } from '../../model/RequestReponse';
 import { Router } from '@angular/router';
@@ -27,12 +25,15 @@ declare const paypal: any;
 })
 export class FacturationListeComponent implements OnInit {
     private facturations: Facturation[] = [];
-    public facturationsParCampagnes: FacturationParCampagne[] = [];
-    public errorMessage: string;
-    public filterValueFacturationsByPayment: string;
-    public filterValueFacturationsByNomPrenomAbonne: string;
-    public filterByAbonneControl: FormControl = new FormControl();
-    public filterValueFacturationsByAbonneChipList: string[] = [];
+    private facturationsParCampagnes: FacturationParCampagne[] = [];
+    private errorMessage: string;
+
+    private filterByPaymentAsString: string;
+    private filterByPaymentAsModel: string = "0";
+
+    private filterByAbonneAsNomPrenom: string;
+    private filterByAbonneControl: FormControl = new FormControl();
+    private filterByAbonneChipList: string[] = [];
 
     constructor(@Inject(AppService) public appService: AppService,
         @Inject(HttpService) public httpService: HttpService,
@@ -43,14 +44,16 @@ export class FacturationListeComponent implements OnInit {
     ngOnInit(): void {
         this.getFacturations();
         this.errorMessage = "";
-        this.filterValueFacturationsByPayment = 'paye-non-paye';
+        this.filterByPaymentAsModel = "0";
+        this.filterByPaymentAsString = "paye-non-paye";
         this.filterByAbonneControl.valueChanges.subscribe(x => {
             this.filterFacturationsByAbonneOnAutoCompleteClosed();
-            this.filterValueFacturationsByAbonneChipList = [];
+            this.filterByAbonneChipList = [];
         })
     }
 
-    creerFacturations() {
+    private creerFacturations() {
+        this.clearFilters();
         let observable = this.httpService.getAsObservable('Facturation/CreerFacturations');
         observable.subscribe(data => {
             let facturations: Facturation[] = data as Facturation[];
@@ -64,7 +67,7 @@ export class FacturationListeComponent implements OnInit {
         });
     }
 
-    getFacturations() {
+    private getFacturations() {
         let observable = this.httpService.getAsObservable('Facturation/ObtenirFacturations');
         observable.subscribe(data => {
             let facturations: Facturation[] = data as Facturation[];
@@ -75,7 +78,7 @@ export class FacturationListeComponent implements OnInit {
         });
     }
 
-    displayFacturations(facturations: Facturation[]) {
+    private displayFacturations(facturations: Facturation[]) {
         this.facturationsParCampagnes = [];
         for (let facturation of facturations) {
             this.initializeFacturation(facturation);
@@ -91,7 +94,7 @@ export class FacturationListeComponent implements OnInit {
         }
     }
 
-    openDetails(idFacturation:string) {
+    private ouvrirPopupFactureAsPdf(idFacturation:string) {
         let idFacturationAsNumber: number = +idFacturation;
         let facturation = this.getFacturationsParId(idFacturationAsNumber);
         let idAbonneAsNumber: number = + facturation.abonne.idAbonne;
@@ -102,7 +105,7 @@ export class FacturationListeComponent implements OnInit {
         });
     }
 
-    payFacturation(idFacturation: string) {
+    private payFacturation(idFacturation: string) {
         let idFacturationAsNumber: number = +idFacturation;
         let facturation = this.getFacturationsParId(idFacturationAsNumber);
         let idAbonneAsNumber: number = + facturation.abonne.idAbonne;
@@ -121,7 +124,7 @@ export class FacturationListeComponent implements OnInit {
         this.addPaypalCheckoutButtons(facturationMontantAsString, facturation, idFacturation);
     }
 
-    enregistrePayment(paymentDetails: any, idFacturation: number) {
+    private enregistrePayment(paymentDetails: any, idFacturation: number) {
         Swal.close();
         const dialogRef = this.dialog.open(DialogPayementRecordingComponent, {});
 
@@ -147,7 +150,7 @@ export class FacturationListeComponent implements OnInit {
         
     }
 
-    addPaypalCheckoutButtons(facturationMontantAsString: string, facturation: Facturation, idFacturation:string) {
+    private addPaypalCheckoutButtons(facturationMontantAsString: string, facturation: Facturation, idFacturation:string) {
         //https://developer.paypal.com/docs/checkout/integrate/
         let clientId: string = 'AcZ2w1FzoK4FurjtjHHjJMTQIo0eJuiHcDNVMojRiWlXxTMKwrl-BMTVWnuLD9_MmEEx7tZNTm8NbQ9n';
         this.loadExternalScript("https://www.paypal.com/sdk/js?client-id=" + clientId + "&currency=EUR&intent=capture").then(() => {
@@ -261,10 +264,10 @@ paypal.Buttons({
         for (let facturation of this.facturations) {
             let addFacturation: boolean;
             addFacturation = true;
-            if (!this.facturationMatchesPayeeFilter(facturation, this.filterValueFacturationsByPayment)) {
+            if (!this.facturationMatchesPayeeFilter(facturation, this.filterByPaymentAsString)) {
                 addFacturation = false;
             }
-            if (!this.facturationMatchesAbonneFilter(facturation, this.filterValueFacturationsByNomPrenomAbonne)) {
+            if (!this.facturationMatchesAbonneFilter(facturation, this.filterByAbonneAsNomPrenom)) {
                 addFacturation = false;
             }
             if (addFacturation) {
@@ -275,24 +278,24 @@ paypal.Buttons({
     }
 
     private filterFacturationsByPayment(filter) {
-        this.filterValueFacturationsByPayment = filter;
+        this.filterByPaymentAsString = filter;
         this.filterFacturations();
     }
 
     private filterFacturationsByAbonneOnOptionSelected(nomPrenomAbonne) {
-        this.filterValueFacturationsByNomPrenomAbonne = nomPrenomAbonne;
+        this.filterByAbonneAsNomPrenom = nomPrenomAbonne;
         this.filterFacturations();
-        this.filterValueFacturationsByAbonneChipList.push(nomPrenomAbonne);
+        this.filterByAbonneChipList.push(nomPrenomAbonne);
     }
 
     private filterFacturationsByAbonneOnAutoCompleteClosed() {
-        this.filterValueFacturationsByNomPrenomAbonne = this.filterByAbonneControl.value;
+        this.filterByAbonneAsNomPrenom = this.filterByAbonneControl.value;
         this.filterFacturations();
     }
 
     private filterByAbonneChipListClear() {
         this.filterByAbonneControl.setValue("");
-        this.filterValueFacturationsByAbonneChipList = [];
+        this.filterByAbonneChipList = [];
     }
 
     private facturationMatchesPayeeFilter(facturation: Facturation, filter: string): boolean {
@@ -313,7 +316,7 @@ paypal.Buttons({
     }
 
     private facturationMatchesAbonneFilter(facturation: Facturation, nomPrenomAbonne: string): boolean {
-        if (nomPrenomAbonne == "") { return true; }
+        if ((nomPrenomAbonne ?? "").replace(" ", "") == "") { return true; }
         return facturation.abonne.prenom + ' ' + facturation.abonne.nom == nomPrenomAbonne;
     }
 
@@ -326,4 +329,12 @@ paypal.Buttons({
         }
         return abonnnes;
     }
+
+    private clearFilters() {
+        this.filterByPaymentAsModel = "0";
+        this.filterByPaymentAsString = "paye-non-paye";
+        this.filterByAbonneControl.setValue("");
+        this.filterByAbonneChipList = [];
+    }
+
 }

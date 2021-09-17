@@ -62,8 +62,6 @@ import { AbonneListeComponent } from '../components/abonne/abonne-liste.componen
 import { AbonneComponent } from '../components/abonne/abonne.component';
 
 import { FacturationListeComponent } from '../components/facturation/facturation-liste.component';
-import { FacturationAbonneComponent } from '../components/facturation/abonne-facturation.component';
-import { FacturationCampagneComponent } from '../components/facturation/campagne-facturation.component';
 import { PaiementSuccessComponent } from '../components/paiement/paiement-success.component';
 
 
@@ -79,7 +77,7 @@ import { PaiementSuccessComponent } from '../components/paiement/paiement-succes
         CompteursLeftNavBarComponent, CompteursListComponent, CompteursReleveComponent, CompteurComponent, DialogAppairageComponent,
         DelegationLeftNavBarComponent, DelegationAccueilComponent, DelegationPayeComponent,
         AbonneComponent, AbonneLeftNavBarComponent, AbonneListeComponent, 
-        FacturationListeComponent, FacturationAbonneComponent, FacturationCampagneComponent, PaiementSuccessComponent,
+        FacturationListeComponent, PaiementSuccessComponent,
         DialogSpinnerComponent, DialogPayementRecordingComponent
   ],
     imports: [

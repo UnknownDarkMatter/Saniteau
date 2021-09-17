@@ -16,7 +16,7 @@
         <h3>Critères de filtrage</h3>
         <div id="filters-campagne-facturation">
             <div>
-                <mat-radio-group aria-label="Paimement" style="display: flex; flex-direction: column">
+                <mat-radio-group aria-label="Paimement" style="display: flex; flex-direction: column" [(ngModel)]="filterByPaymentAsModel">
                     <mat-radio-button value="0" [checked]="true" (click)="filterFacturationsByPayment('paye-non-paye')">Payée et non payée</mat-radio-button>
                     <mat-radio-button value="1" (click)="filterFacturationsByPayment('paye')">Payée</mat-radio-button>
                     <mat-radio-button value="2" (click)="filterFacturationsByPayment('non-paye')">Non payée</mat-radio-button>
@@ -42,7 +42,7 @@
                 </div>
                 <div>
                     <mat-chip-list #chipList [multiple] ="false">
-                        <mat-chip *ngFor="let filtreAbonne of filterValueFacturationsByAbonneChipList"
+                        <mat-chip *ngFor="let filtreAbonne of filterByAbonneChipList"
                                   [removable]="true"
                                   (removed)="filterByAbonneChipListClear()">
                             {{filtreAbonne}}
@@ -76,7 +76,7 @@
                                 <mat-icon>attach_money</mat-icon>
                                 <span>Payer</span>
                             </button>
-                            <button mat-button (click)="openDetails(facturation.idFacturation)">
+                            <button mat-button (click)="ouvrirPopupFactureAsPdf(facturation.idFacturation)">
                                 <mat-icon>format_list_numbered</mat-icon>
                                 <span>Details</span>
                             </button>
