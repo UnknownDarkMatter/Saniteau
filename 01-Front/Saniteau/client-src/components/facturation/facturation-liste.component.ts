@@ -23,15 +23,16 @@ declare const paypal: any;
     selector: 'facturation-liste',
     templateUrl: 'facturation-liste.component.html',
     styleUrls: ['./facturation-liste.component.css'],
-     
+
 })
 export class FacturationListeComponent implements OnInit {
-    private facturations: Facturation[] =[];
+    private facturations: Facturation[] = [];
     public facturationsParCampagnes: FacturationParCampagne[] = [];
     public errorMessage: string;
     public filterValueFacturationsByPayment: string;
     public filterValueFacturationsByNomPrenomAbonne: string;
     public filterByAbonneControl: FormControl = new FormControl();
+    public filterValueFacturationsByAbonneChipList: string[] = [];
 
     constructor(@Inject(AppService) public appService: AppService,
         @Inject(HttpService) public httpService: HttpService,
@@ -45,6 +46,7 @@ export class FacturationListeComponent implements OnInit {
         this.filterValueFacturationsByPayment = 'paye-non-paye';
         this.filterByAbonneControl.valueChanges.subscribe(x => {
             this.filterFacturationsByAbonneOnAutoCompleteClosed();
+            this.filterValueFacturationsByAbonneChipList = [];
         })
     }
 
@@ -280,11 +282,17 @@ paypal.Buttons({
     private filterFacturationsByAbonneOnOptionSelected(nomPrenomAbonne) {
         this.filterValueFacturationsByNomPrenomAbonne = nomPrenomAbonne;
         this.filterFacturations();
+        this.filterValueFacturationsByAbonneChipList.push(nomPrenomAbonne);
     }
 
     private filterFacturationsByAbonneOnAutoCompleteClosed() {
         this.filterValueFacturationsByNomPrenomAbonne = this.filterByAbonneControl.value;
         this.filterFacturations();
+    }
+
+    private filterByAbonneChipListClear() {
+        this.filterByAbonneControl.setValue("");
+        this.filterValueFacturationsByAbonneChipList = [];
     }
 
     private facturationMatchesPayeeFilter(facturation: Facturation, filter: string): boolean {
@@ -318,5 +326,4 @@ paypal.Buttons({
         }
         return abonnnes;
     }
-
 }

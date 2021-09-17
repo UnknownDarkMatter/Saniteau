@@ -79,10 +79,16 @@ mat-card {
 }
 
 
-@media screen and (min-width: 850px) {
+@media screen and (min-width: 480px) {
     #filters-campagne-facturation {
         display: grid;
         grid-template-columns: auto auto 1fr;
         column-gap: 5%;
     }
+}
+
+#filters-compagne-facturation-abonne {
+    display: grid;
+    grid-template-rows: auto auto 1fr;
+    row-gap: 5%;
 }
