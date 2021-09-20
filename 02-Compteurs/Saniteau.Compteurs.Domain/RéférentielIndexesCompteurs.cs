@@ -8,5 +8,6 @@ namespace Saniteau.Compteurs.Domain
     {
         IndexCompteur EnregistreIndex(IndexCompteur index);
         List<IndexCompteur> GetIndexesOfCompteur(IdCompteur idCompteur);
+        void SupprimeIndex(IndexCompteur index);
     }
 }

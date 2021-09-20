@@ -10,6 +10,7 @@ import { DialogAppairageComponent } from './dialog-appairage.component';
 import { FormControl } from '@angular/forms';
 import { EnregistreCompteurRequest } from '../../model/compteur/EnregistreCompteurRequest';
 import { RequestReponse } from '../../model/RequestReponse';
+import { SupprimeCompteurRequest } from '../../model/compteur/SupprimeCompteurRequest';
 
 @Component({
     selector: 'compteur',
@@ -60,7 +61,22 @@ export class CompteurComponent implements OnInit {
     }
 
     deleteCompteur() {
-        alert('todo : supprimer compteur');
+        let spinnerDialogRef = this.appService.showSpinner();
+        let supprimeCompteurRequest: SupprimeCompteurRequest = new SupprimeCompteurRequest(this.idCompteur);
+        let observable = this.httpService.postAsObservable('Compteurs/SupprimeCompteur', supprimeCompteurRequest);
+        observable.subscribe(data => {
+            let result: RequestReponse = data as RequestReponse;
+            if (result.isError) {
+                this.snackBar.open('Erreur : ' + result.errorMessage, '', { duration: 2000 });
+                return;
+            }
+            this.snackBar.open('Le compteur a été supprimé', '', { duration: 2000 });
+            spinnerDialogRef.close();
+            this.deleted.next(true);
+        }, error => {
+            this.snackBar.open('Erreur ' + error.status + ' : ' + error.statusText, '', { duration: 3000 });
+            spinnerDialogRef.close();
+        });
     }
 
     setEditMode(value: boolean) {
@@ -89,10 +105,10 @@ export class CompteurComponent implements OnInit {
                 this.snackBar.open('Erreur : ' + result.errorMessage, '', { duration: 2000 });
                 return;
             }
-            this.numeroCompteur = this.numeroCompteurControl.value;
             this.snackBar.open('Le compteur a été enregistré', '', { duration: 2000 });
             this.isEditMode = false;
             spinnerDialogRef.close();
+            this.updated.next(true);
         }, error => {
             this.snackBar.open('Erreur ' + error.status + ' : ' + error.statusText, '', { duration: 3000 });
             this.isEditMode = false;

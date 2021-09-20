@@ -35,7 +35,10 @@
                 </mat-chip-list>
             </mat-form-field>
 
-            <compteur *ngFor="let compteur of compteurs; trackBy: trackByFn" [compteur]="compteur" (deleted)="onDeleted($event)" (updated)="onUpdated($event)"></compteur>
+            <compteur *ngFor="let compteur of compteurs; trackBy: trackByFn" 
+                      [compteur]="compteur"
+                      (deleted)="onDeleted($event)" 
+                      (updated)="onUpdated($event)"></compteur>
         </div>
     </mat-card>
 

@@ -63,5 +63,18 @@ namespace Saniteau.Compteurs.Repository
                 return dbContext.IndexesCompteur.Where(i => i.IdCompteur == (int)idCompteur).Select(IndexCompteurMapper.Map).ToList();
             }
         }
+        public void SupprimeIndex(IndexCompteur index)
+        {
+            using (var dbContext = _dbContextFactory.CreateDbContext())
+            {
+                var models = dbContext.IndexesCompteur.Where(c => c.IdIndex == (int)index.IdIndex);
+                foreach (var model in models)
+                {
+                    dbContext.IndexesCompteur.Remove(model);
+                }
+                dbContext.SaveChanges();
+            }
+        }
+
     }
 }

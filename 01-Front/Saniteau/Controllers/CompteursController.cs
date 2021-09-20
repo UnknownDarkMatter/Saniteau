@@ -243,5 +243,23 @@ namespace Saniteau.Controllers
             }
         }
 
+        [HttpPost]
+        public ActionResult SupprimeCompteur([FromBody] SupprimeCompteurRequest supprimeCompteurRequest)
+        {
+            try
+            {
+                var deleteCompteurCommand = new DeleteCompteurCommand(supprimeCompteurRequest.IdCompteur);
+                var deleteCompteurCommandHandler = new DeleteCompteurCommandHandler(_référentielCompteurs, _référentielAppairage, _référentielPDL, _référentielIndexesCompteurs);
+                deleteCompteurCommandHandler.Handle(deleteCompteurCommand);
+                var result = new RequestResponse(false, "");
+                return new JsonResult(result);
+            }
+            catch (Exception ex)
+            {
+                var result = new RequestResponse(true, ex.Message);
+                return new JsonResult(result);
+            }
+        }
+
     }
 }
