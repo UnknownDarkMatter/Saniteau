@@ -27,3 +27,50 @@ mat-card {
     background-color: white;
     box-shadow: 3px 3px 1px 1px rgba(0, 0, 255, .2);
 }
+
+.delegation-paye-releve-marge-gauche {
+    margin-left: 20px;
+}
+
+table.delegation-paye-releve-table tr:nth-child(0n+1) td {
+    border-top: none;
+    background-color: lightgray;
+    font-weight: bold;
+    text-align: center;
+}
+
+table.delegation-paye-releve-table tr td:nth-child(0n+1) {
+    border-left: none;
+    text-align:left;
+}
+table.delegation-paye-releve-table tr td {
+    border-left: solid 1px black;
+    border-top: solid 1px black;
+    text-align: right;
+}
+.delegation-paye-releve-nom-paye {
+    border-bottom: double 3px black;
+    font-weight: bold;
+}
+.delegation-paye-releve-detail {
+    border-bottom: double 3px black;
+    font-weight: bold;
+}
+.delegation-paye-releve-ligne-paye {
+    border-top: solid 1px black;
+}
+
+.delegation-paye-retributions-wrapper {
+    width: 270px;
+}
+
+.delegation-paye-releve-wrapper {
+    margin-top: 20px;
+}
+
+@media screen and (min-width: 848px) {
+    .delegation-paye-releve-wrapper {
+        margin-left: 20px;
+        margin-top: 0px !important;
+    }
+}

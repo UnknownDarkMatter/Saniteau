@@ -1,8 +1,77 @@
 <div class="main-page-card-title">
-    <h3 style="display: inline;">Paye du délégataire</h3>
+    <h3 style="display: inline;">Rétribution du délégataire</h3>
 </div>
 <mat-card>
     <div class="main-page-card-wrapper">
-        Paye du délégataire
+        <h4>Liste de paiements dûs au délégataire et financés par les campagnes de facturation</h4>
+        <br />
+        <div style="width:90%;">
+
+            <div style="float: left;" class="delegation-paye-retributions-wrapper">
+                <mat-accordion>
+                    <mat-expansion-panel hideToggle>
+                        <mat-expansion-panel-header>
+                            <mat-panel-title>
+                                <div class="delegation-paye-releve-nom-paye">
+                                    Paye 1 du 27/11/2020
+                                </div>
+                            </mat-panel-title>
+                        </mat-expansion-panel-header>
+                        <div class="delegation-paye-releve-marge-gauche">
+                            <div>
+                                <span style="float:left">Somme des facturations</span>
+                                <span style="float:right">1000€</span>
+                            </div>
+                            <div style="clear:both"></div>
+                            <div class="delegation-paye-releve-ligne-paye">
+                                <span style="float:left">Part Saniteau</span>
+                                <span style="float:right">300€</span>
+                            </div>
+                            <div style="clear:both"></div>
+                            <div class="delegation-paye-releve-ligne-paye">
+                                <span style="float:left">Part du délégataire</span>
+                                <span style="float:right">700€</span>
+                            </div>
+                        </div>
+                    </mat-expansion-panel>
+                </mat-accordion>
+            </div>
+            <div style="float: left;" class="delegation-paye-releve-wrapper">
+                <mat-accordion>
+                    <mat-expansion-panel hideToggle>
+                        <mat-expansion-panel-header>
+                            <mat-panel-title>
+                                <span style="float: left" class="delegation-paye-releve-detail">Relèves effectuées</span>
+                            </mat-panel-title>
+                        </mat-expansion-panel-header>
+                        <div style="float:right">
+                            <table class="delegation-paye-releve-table">
+                                <tr>
+                                    <td>Date</td>
+                                    <td>Consommé (m^3)</td>
+                                    <td>Fuites (m^3)</td>
+                                </tr>
+                                <tr>
+                                    <td>01/10/2020</td>
+                                    <td>1302</td>
+                                    <td>500</td>
+                                </tr>
+                                <tr>
+                                    <td>20/11/2020</td>
+                                    <td>568</td>
+                                    <td>123</td>
+                                </tr>
+                                <tr>
+                                    <td>TOTAL</td>
+                                    <td>1870</td>
+                                    <td>632</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </mat-expansion-panel>
+                </mat-accordion>
+            </div>
+
+        </div>
     </div>
 </mat-card>
