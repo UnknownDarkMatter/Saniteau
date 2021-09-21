@@ -22,5 +22,11 @@ namespace Saniteau.DSP.Domain.Commands
             DateContrat = dateContrat;
         }
 
+        public Delegant CréeDéléguant(RéférentielDelegant référentielDelegant)
+        {
+            var delegant = new Domain.Delegant(IdDelegant.Parse(0), Nom, Adresse, DateContrat);
+            delegant = référentielDelegant.EnregistreDelegant(delegant);
+            return delegant;
+        }
     }
 }

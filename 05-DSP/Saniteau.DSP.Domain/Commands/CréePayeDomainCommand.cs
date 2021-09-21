@@ -18,5 +18,24 @@ namespace Saniteau.DSP.Domain.Commands
             DatePaye = datePaye;
             IdDelegant = idDelegant;
         }
+
+        public void CréePayeDéléguant(RéférentielPaye référentielPaye, RéférentielAbonnés référentielAbonnés,
+            RéférentielFacturation référentielFacturation, RéférentielPompes référentielPompes, RéférentielIndexesCompteurs référentielIndexesCompteurs,
+            RéférentielCompteurs référentielCompteurs)
+        {
+            var payeCalculator = new PayeCalculator(référentielPaye, référentielAbonnés, référentielFacturation, référentielPompes, référentielIndexesCompteurs, référentielCompteurs);
+            var payeDelegant = payeCalculator.CalculePayeDelegant(DatePaye, IdDelegant, out List<IndexPayéParDelegant> nouveauxIndexPayés, out List<FacturePayeeAuDelegant> nouvellesFacturesPayées);
+
+            payeDelegant = référentielPaye.EnregistrePayeDelegant(payeDelegant);
+            foreach (var nouveauIndexPayé in nouveauxIndexPayés)
+            {
+                référentielPaye.EnregistreIndexesPayésParDelegant(nouveauIndexPayé);
+            }
+            foreach (var nouvellesFacturePayée in nouvellesFacturesPayées)
+            {
+                référentielPaye.EnregistreFacturePayeeAuDelegant(nouvellesFacturePayée);
+            }
+
+        }
     }
 }

@@ -20,11 +20,11 @@
                 <div style="clear:both"></div>
                 <div [ngStyle]="{'display': isEditMode ? 'none' : 'block'}">
                     <div class="retribution-delegataire-edit-identite">
-                        <span>{{nomDelegant}}</span>
+                        <span>{{this.deleguant.nom}}</span>
                         <div style="clear:both"></div>
-                        <span>{{adresseDelegant}}</span>
+                        <span>{{this.deleguant.adresse}}</span>
                         <div style="clear:both"></div>
-                        <span>{{dateToString(dateContratDelegant)}}</span>
+                        <span>{{dateToString(this.deleguant.dateContrat)}}</span>
                     </div>
                 </div>
                 <div [ngStyle]="{'display': isEditMode ? 'block' : 'none'}">

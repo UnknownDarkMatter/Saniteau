@@ -39,18 +39,7 @@ namespace Saniteau.DSP.Application.Handlers
 
         protected override void Handle(CréePayeDomainCommand action)
         {
-            var payeCalculator = new PayeCalculator(_référentielPaye, _référentielAbonnés, _référentielFacturation, _référentielPompes, _référentielIndexesCompteurs, _référentielCompteurs);
-            var payeDelegant = payeCalculator.CalculePayeDelegant(action.DatePaye, action.IdDelegant, out List<IndexPayéParDelegant> nouveauxIndexPayés, out List<FacturePayeeAuDelegant> nouvellesFacturesPayées);
-
-            payeDelegant = _référentielPaye.EnregistrePayeDelegant(payeDelegant);
-            foreach(var nouveauIndexPayé in nouveauxIndexPayés)
-            {
-                _référentielPaye.EnregistreIndexesPayésParDelegant(nouveauIndexPayé);
-            }
-            foreach (var nouvellesFacturePayée in nouvellesFacturesPayées)
-            {
-                _référentielPaye.EnregistreFacturePayeeAuDelegant(nouvellesFacturePayée);
-            }
+            action.CréePayeDéléguant(_référentielPaye, _référentielAbonnés, _référentielFacturation, _référentielPompes, _référentielIndexesCompteurs, _référentielCompteurs);
         }
     }
 }

@@ -9,6 +9,8 @@ using Microsoft.Extensions.Logging;
 using Saniteau.Common;
 using Saniteau.DSP.Application.Handlers;
 using Saniteau.DSP.Contract.Commands;
+using Saniteau.DSP.Domain;
+using Saniteau.DSP.Repository;
 using Saniteau.Models;
 
 namespace Saniteau.Controllers
@@ -16,9 +18,20 @@ namespace Saniteau.Controllers
     [Authorize(Policy = Constants.JWT.ApiAccessPolicyName)]
     public class DSPController : Controller
     {
-        public DSPController()
+        private readonly RéférentielDelegantOnEfCore _référentielDelegant;
+        public DSPController(RéférentielDelegantOnEfCore référentielDelegant)
         {
+            _référentielDelegant = référentielDelegant ?? throw new ArgumentNullException(nameof(référentielDelegant));
         }
+
+        public ActionResult ObtientDeleguant()
+        {
+            var obtientDeleguantCommand = new ObtientDelegantCommand();
+            var obtientDelegantCommandHandler = new ObtientDelegantCommandHandler(_référentielDelegant);
+            var deleguant = obtientDelegantCommandHandler.Handle(obtientDeleguantCommand);
+            return new JsonResult(deleguant);
+        }
+
 
         //public ActionResult CreerFacturations()
         //{

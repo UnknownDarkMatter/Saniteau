@@ -20,8 +20,7 @@ namespace Saniteau.DSP.Application.Handlers
 
         protected override Contract.Model.Delegant Handle(CréeDelegantDomainCommand action)
         {
-            var delegant = new Domain.Delegant(IdDelegant.Parse(0), action.Nom, action.Adresse, action.DateContrat);
-            delegant = _référentielDelegant.EnregistreDelegant(delegant);
+            var delegant = action.CréeDéléguant(_référentielDelegant);
             return DelegantMapper.Map(delegant);
         }
     }
