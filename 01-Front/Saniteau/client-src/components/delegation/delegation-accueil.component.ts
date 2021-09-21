@@ -25,7 +25,7 @@ export class DelegationAccueilComponent implements OnInit {
         this.isEditMode = false;
         this.nomDelegant = "Ville de Paris";
         this.adresseDelegant = "1 rue de l'hotel de ville, 75000, PARIS";
-        this.dateContratDelegant = new Date(2019, 4-1 , 12, 0, 0, 0, 0);//4 = mai
+        this.dateContratDelegant = new Date(2019, 4 - 1, 12, 0, 0, 0, 0);//4 = mai
     }
     private setEditMode(isEditMode: boolean) {
         if (isEditMode) {
@@ -43,12 +43,12 @@ export class DelegationAccueilComponent implements OnInit {
     private updateDelegataire() {
         this.nomDelegant = this.nomDelegantControl.value;
         this.adresseDelegant = this.adresseDelegantControl.value;
-        this.dateContratDelegant = this.dateContratDelegantControl.value;
-        alert('TODO : updateDelegataire ' + this.nomDelegant + ', ' + this.adresseDelegant + ', ' + this.dateContratDelegant.getDay() + '/' + this.dateContratDelegant.getMonth() + '/' + this.dateContratDelegant.getFullYear());
+        this.dateContratDelegant = new Date(this.dateContratDelegantControl.value.toISOString());
+        alert('TODO : updateDelegataire ' + this.nomDelegant + ', ' + this.adresseDelegant + ', ' + this.dateToString(this.dateContratDelegant));
     }
 
     private dateToString(date: Date): string {
-        return date.getDay().toString().padStart(2, '0') + '/' + date.getMonth().toString().padStart(2, '0') + '/' + date.getFullYear();
+        return date.getDate().toString().padStart(2, '0') + '/' + (date.getMonth() + 1).toString().padStart(2, '0') + '/' + date.getFullYear();
         //return date.toDateString();
     }
 }
