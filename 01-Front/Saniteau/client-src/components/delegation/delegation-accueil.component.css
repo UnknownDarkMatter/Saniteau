@@ -38,16 +38,77 @@ mat-card {
 .img-facturation-dsp {
     width: 200px;
 }
-.retribution-delegataire-image-et-bouton-divider {
+.retribution-delegataire-image-et-identite-divider {
     clear: both;
 }
 
 @media screen and (min-width:600px){
-    .lancer-retribution-dsp-wrapper {
+    .retribution-delegataire-identite-wrapper {
         display: flex;
     }
-    .retribution-delegataire-image-et-bouton-divider {
+    .retribution-delegataire-image-et-identite-divider {
         clear: none;
     }
 
 }
+
+
+.retribution-delegataire-releve-marge-gauche {
+    margin-left: 20px;
+}
+
+table.retribution-delegataire-releve-table tr:nth-child(0n+1) td {
+    border-top: none;
+    font-weight: bold;
+    text-align: center;
+}
+
+table.retribution-delegataire-releve-table tr td:nth-child(0n+1) {
+    border-left: none;
+    text-align: left;
+}
+
+table.retribution-delegataire-releve-table tr td {
+    border-left: solid 1px black;
+    border-top: solid 1px black;
+    text-align: right;
+}
+
+.retribution-delegataire-releve-nom-paye {
+    border-bottom: double 3px black;
+    font-weight: bold;
+}
+
+.retribution-delegataire-releve-detail {
+    border-bottom: double 3px black;
+    font-weight: bold;
+}
+
+.retribution-delegataire-releve-ligne-paye {
+    border-top: solid 1px black;
+}
+
+@media screen and (min-width:850px){
+    .retribution-delegataire-titre-et-bouton {
+        display: flex;
+        grid-template-columns: auto auto 1fr;
+        column-gap: 5%;
+    }
+}
+.retribution-delegataire-montant-du{
+    max-width:400px;
+}
+.retribution-delegataire-releve-table {
+    width: 100%;
+    max-width: 400px;
+}
+
+
+
+
+
+
+
+
+
+

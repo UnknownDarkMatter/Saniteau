@@ -42,6 +42,7 @@
 
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Models\DSP\" />
   </ItemGroup>
 
 </Project>
