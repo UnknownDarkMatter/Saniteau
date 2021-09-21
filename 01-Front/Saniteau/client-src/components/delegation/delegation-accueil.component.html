@@ -14,7 +14,53 @@
             </div>
             <div class="retribution-delegataire-image-et-identite-divider"></div>
             <div>
+                <div class="action-icon" [ngStyle]="{'display': isEditMode ? 'none' : 'block'}" style="float:right">
+                    <a href="javascript:void(0)" (click)="setEditMode(true)"><mat-icon>edit</mat-icon></a>
+                </div>
+                <div style="clear:both"></div>
+                <div [ngStyle]="{'display': isEditMode ? 'none' : 'block'}">
+                    <div class="retribution-delegataire-edit-identite">
+                        <span>{{nomDelegant}}</span>
+                        <div style="clear:both"></div>
+                        <span>{{adresseDelegant}}</span>
+                        <div style="clear:both"></div>
+                        <span>{{dateToString(dateContratDelegant)}}</span>
+                    </div>
+                </div>
+                <div [ngStyle]="{'display': isEditMode ? 'block' : 'none'}">
+                    <div class="retribution-delegataire-edit-identite">
+                        <mat-form-field appearance="fill" style="width: 100%">
+                            <mat-label>Nom du délégataire</mat-label>
+                            <input type="text"
+                                   placeholder="Ville de Paris"
+                                   aria-label="Nom du délégataire"
+                                   matInput
+                                   [formControl]="nomDelegantControl">
+                        </mat-form-field>
+                        <div style="clear:both"></div>
+                        <mat-form-field appearance="fill" style="width: 100%">
+                            <mat-label>Adresse</mat-label>
+                            <input type="text"
+                                   placeholder="1 rue de l'hotel de ville, 75000, PARIS"
+                                   aria-label="Adresse"
+                                   matInput
+                                   [formControl]="adresseDelegantControl">
+                        </mat-form-field>
+                        <div style="clear:both"></div>
+                        <mat-form-field appearance="fill">
+                            <mat-label>Date de contrat</mat-label>
+                            <input matInput [matDatepicker]="picker" [formControl]="dateContratDelegantControl">
+                            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                            <mat-datepicker #picker [calendarHeaderComponent]="exampleHeader"></mat-datepicker>
+                        </mat-form-field>
 
+                        <div style="clear:both;"></div>
+                        <div style="width:100%;text-align:center">
+                            <button mat-raised-button color="primary" (click)="updateDelegataire()" style="margin-right:10px;">Modifier</button>
+                            <button mat-raised-button color="primary" (click)="setEditMode(false)" style="">Annuler</button>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
         <br />

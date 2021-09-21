@@ -94,6 +94,10 @@ table.retribution-delegataire-releve-table tr td {
         grid-template-columns: auto auto 1fr;
         column-gap: 5%;
     }
+
+    .retribution-delegataire-edit-identite{
+        margin-left:20px;
+    }
 }
 .retribution-delegataire-montant-du{
     max-width:400px;

@@ -26,7 +26,10 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatStepperModule } from '@angular/material/stepper'; 
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
-import { MatExpansionModule } from '@angular/material/expansion'; 
+import { MatExpansionModule } from '@angular/material/expansion';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule, NativeDateAdapter, DateAdapter, MAT_DATE_LOCALE } from '@angular/material/core';
+
 
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { DataTablesModule } from "angular-datatables";
@@ -111,11 +114,13 @@ import { PaiementSuccessComponent } from '../components/paiement/paiement-succes
         MatAutocompleteModule,
         MatStepperModule,
         MatSlideToggleModule,
-        MatExpansionModule
+        MatExpansionModule,
+        MatDatepickerModule,
+        MatNativeDateModule
 
         //,PayPalButtonModule
   ],
-    providers: [],
+    providers: [NativeDateAdapter, { provide: MAT_DATE_LOCALE, useValue: 'fr-FR' } ],
     bootstrap: [AppComponent],
     entryComponents: [
         AccountCreateComponent, LoginDialogComponent, DialogConfirmComponent, DialogInfoComponent, DialogSpinnerComponent, 
