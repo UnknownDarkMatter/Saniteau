@@ -8,6 +8,7 @@ import { AppService } from '../../services/AppService';
     styleUrls: ['./delegation-paye.component.css']
 })
 export class DelegationPayeComponent {
+
     constructor(@Inject(AppService) public appService) {
     }
 }

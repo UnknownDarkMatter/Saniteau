@@ -8,6 +8,13 @@ import { AppService } from '../../services/AppService';
     styleUrls: ['./delegation-accueil.component.css']
 })
 export class DelegationAccueilComponent {
+    private errorMessage: string = "";
+
     constructor(@Inject(AppService) public appService) {
     }
+
+    private creerRetributionsDelegataire() {
+        alert('TODO : creerRetributionsDelegataire');
+    }
+
 }

@@ -3,6 +3,21 @@
 </div>
 <mat-card>
     <div class="main-page-card-wrapper">
-        Accueil du délégataire
+        <h3>Accueil du délégataire</h3>
+        <div style="display: flex" class="mat-error">
+            <span [ngClass]="{'errorMessageDelegationPaye' : errorMessage != ''}">{{errorMessage}}</span>
+        </div>
+        <div style="clear:both;"></div>
+        <div class="lancer-retribution-dsp-wrapper">
+            <div>
+                <img src="../../../wwwroot/img/institution-bancaire.png" alt="Rétribution délégataire" class="img-facturation-dsp">
+            </div>
+            <div class="retribution-delegataire-image-et-bouton-divider"></div>
+            <div class="button-lancer-facturation">
+                <button mat-raised-button color="primary" (click)="creerRetributionsDelegataire()">Lancer une rétribution du délégataire</button>
+            </div>
+        </div>
+        <h3>Rétributions dûes par Saniteau</h3>
+
     </div>
 </mat-card>

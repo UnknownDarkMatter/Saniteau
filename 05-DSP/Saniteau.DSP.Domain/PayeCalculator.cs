@@ -27,7 +27,9 @@ namespace Saniteau.DSP.Domain
             _référentielCompteurs = référentielCompteurs;
         }
 
-        public PayeDelegant CalculePayeDelegant(Date datePaye, IdDelegant idDelegant, out List<IndexPayéParDelegant> nouveauxIndexPayés, out List<FacturePayeeAuDelegant> nouvellesFacturesPayées)
+        public PayeDelegant CalculePayeDelegant(Date datePaye, IdDelegant idDelegant, 
+            out List<IndexPayéParDelegant> nouveauxIndexPayés,
+            out List<FacturePayeeAuDelegant> nouvellesFacturesPayées)
         {
             var nouvellePaye = new PayeDelegant(IdPayeDelegant.Parse(0), idDelegant, datePaye, new List<PayeDelegantLigne>());
             nouveauxIndexPayés = new List<IndexPayéParDelegant>();

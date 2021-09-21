@@ -27,3 +27,27 @@ mat-card {
     background-color: white;
     box-shadow: 3px 3px 1px 1px rgba(0, 0, 255, .2);
 }
+
+.errorMessageDelegationPaye {
+    padding: 20px;
+    font-weight: bold;
+    font-size: large;
+}
+
+
+.img-facturation-dsp {
+    width: 200px;
+}
+.retribution-delegataire-image-et-bouton-divider {
+    clear: both;
+}
+
+@media screen and (min-width:600px){
+    .lancer-retribution-dsp-wrapper {
+        display: flex;
+    }
+    .retribution-delegataire-image-et-bouton-divider {
+        clear: none;
+    }
+
+}
