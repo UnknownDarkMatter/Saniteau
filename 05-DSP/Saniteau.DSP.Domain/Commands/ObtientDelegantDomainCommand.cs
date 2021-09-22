@@ -7,10 +7,10 @@ namespace Saniteau.DSP.Domain.Commands
 {
     public class ObtientDelegantDomainCommand
     {
-        public Delegant ObtientDéléguant(RéférentielDelegant référentielDelegant)
+        public List<Delegant> ObtientDéléguants(RéférentielDelegant référentielDelegant)
         {
-            var delegant = référentielDelegant.GetDelegants().FirstOrDefault();
-            return delegant;
+            var delegants = référentielDelegant.GetDelegants().ToList();
+            return delegants;
         }
 
     }

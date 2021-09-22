@@ -11,4 +11,5 @@
         this.adresse = adresse;
         this.dateContrat = dateContrat;
     }
+
 }

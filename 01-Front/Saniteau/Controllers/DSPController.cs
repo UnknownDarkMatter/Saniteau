@@ -24,12 +24,13 @@ namespace Saniteau.Controllers
             _référentielDelegant = référentielDelegant ?? throw new ArgumentNullException(nameof(référentielDelegant));
         }
 
-        public ActionResult ObtientDeleguant()
+        public ActionResult ObtientDeleguants()
         {
             var obtientDeleguantCommand = new ObtientDelegantCommand();
             var obtientDelegantCommandHandler = new ObtientDelegantCommandHandler(_référentielDelegant);
-            var deleguant = obtientDelegantCommandHandler.Handle(obtientDeleguantCommand);
-            return new JsonResult(deleguant);
+            var deleguants = obtientDelegantCommandHandler.Handle(obtientDeleguantCommand);
+            var deleguantsAsModel = deleguants.Select(Mappers.DelegantMapper.Map);
+            return new JsonResult(deleguantsAsModel.ToArray());
         }
 
 

@@ -8,7 +8,7 @@ using System.Text;
 
 namespace Saniteau.DSP.Contract.Commands
 {
-    public class ObtientDelegantCommand : IAction<Delegant>
+    public class ObtientDelegantCommand : IAction<List<Delegant>>
     {
     }
 }

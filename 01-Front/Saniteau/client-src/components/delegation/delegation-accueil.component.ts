@@ -13,7 +13,9 @@ import { Deleguant } from '../../model/delegation/Deleguant';
 export class DelegationAccueilComponent implements OnInit {
     private errorMessage: string = "";
     private isEditMode: boolean;
+    private canSelectDelegant: boolean;
 
+    private deleguants: Deleguant[];
     private deleguant: Deleguant;
     private nomDelegantControl: FormControl = new FormControl();
     private adresseDelegantControl: FormControl = new FormControl();
@@ -27,22 +29,27 @@ export class DelegationAccueilComponent implements OnInit {
     ngOnInit(): void {
         this.isEditMode = false;
         this.deleguant = null;
+        this.canSelectDelegant = true;
 
-        let observable = this.httpService.getAsObservable('DSP/ObtientDeleguant');
+        let observable = this.httpService.getAsObservable('DSP/ObtientDeleguants');
         observable.subscribe(data => {
-            this.deleguant = data as Deleguant;
-
-            if (this.deleguant == null) {
-                this.deleguant = new Deleguant(0, "Ville de Paris", "1 rue de l'hotel de ville, 75000, PARIS", new Date(2019, 4 - 1, 12, 0, 0, 0, 0));//4 = mai
-            }
+            this.deleguants = this.convertArrayOfDelegants(data);
         }, error => {
             this.snackBar.open('Erreur ' + error.status + ' : ' + error.statusText, '', { duration: 3000 });
         });
-
-    //    this.nomDelegant = "Ville de Paris";
-    //    this.adresseDelegant = "1 rue de l'hotel de ville, 75000, PARIS";
-    //    this.dateContratDelegant = new Date(2019, 4 - 1, 12, 0, 0, 0, 0);//4 = mai
     }
+
+    private convertArrayOfDelegants(deleguants: any): Deleguant[] {
+        let result: Deleguant[] = [];
+        for (var i = 0; i < deleguants.length; i++) {
+            let delegantAsAny: any = deleguants[i];
+            var dateParts = delegantAsAny.dateContrat.split("/");
+            result.push(new Deleguant(delegantAsAny.idDelegant, delegantAsAny.nom, delegantAsAny.adresse,
+                new Date(+dateParts[2], dateParts[1] - 1, +dateParts[0])));
+        }
+        return result;
+    }
+
     private setEditMode(isEditMode: boolean) {
         if (isEditMode && this.deleguant != null) {
             this.nomDelegantControl.setValue(this.deleguant.nom);
@@ -50,10 +57,7 @@ export class DelegationAccueilComponent implements OnInit {
             this.dateContratDelegantControl.setValue(this.deleguant.dateContrat);
         }
         this.isEditMode = isEditMode;
-    }
-
-    private creerRetributionsDelegataire() {
-        alert('TODO : creerRetributionsDelegataire');
+        this.canSelectDelegant = !isEditMode;
     }
 
     private updateDelegataire() {
@@ -70,6 +74,33 @@ export class DelegationAccueilComponent implements OnInit {
     private dateToString(date: Date): string {
         return date.getDate().toString().padStart(2, '0') + '/' + (date.getMonth() + 1).toString().padStart(2, '0') + '/' + date.getFullYear();
         //return date.toDateString();
+    }
+
+    private onSelectDelegantChange(option: string) {
+        if (option == "") {
+            this.deleguant = null;
+            return;
+        }
+        this.deleguant = this.deleguants.filter(m => m.nom == option)[0];
+    }
+
+    private getDelegantNom() {
+        if (this.deleguant == null) { return ""; }
+        return this.deleguant.nom;
+    }
+
+    private getDelegantAdresse() {
+        if (this.deleguant == null) { return ""; }
+        return this.deleguant.adresse;
+    }
+
+    private getDelegantDateContrat() {
+        if (this.deleguant == null) { return ""; }
+        return this.dateToString(this.deleguant.dateContrat);
+    }
+
+    private creerRetributionsDelegataire() {
+        alert('TODO : creerRetributionsDelegataire');
     }
 }
 

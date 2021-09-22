@@ -1,4 +1,5 @@
-﻿using Saniteau.DSP.Domain;
+﻿using Saniteau.Common;
+using Saniteau.DSP.Domain;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -11,14 +12,14 @@ namespace Saniteau.DSP.Application.Mappers
         {
             if(model is null) { return null; }
 
-            return new Delegant(IdDelegant.Parse(model.IdDelegant), new ChampLibre(model.Nom), new ChampLibre(model.Adresse), model.DateContrat);
+            return new Delegant(IdDelegant.Parse(model.IdDelegant), new ChampLibre(model.Nom), new ChampLibre(model.Adresse), model.DateContrat.ToDate());
         }
 
         public static Contract.Model.Delegant Map(Delegant delegant)
         {
             if (delegant is null) { return null; }
 
-            return new Contract.Model.Delegant((int)delegant.IdDelegant, delegant.Nom.ToString(), delegant.Adresse.ToString(), delegant.DateContrat);
+            return new Contract.Model.Delegant((int)delegant.IdDelegant, delegant.Nom.ToString(), delegant.Adresse.ToString(), delegant.DateContrat.ToDateTime(0, 0, 0));
         }
     }
 }

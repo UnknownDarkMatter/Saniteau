@@ -6,11 +6,12 @@ using Saniteau.DSP.Domain;
 using Saniteau.DSP.Domain.Commands;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace Saniteau.DSP.Application.Handlers
 {
-    public class ObtientDelegantCommandHandler : ActionHandlerBase<ObtientDelegantCommand, ObtientDelegantDomainCommand, Contract.Model.Delegant>
+    public class ObtientDelegantCommandHandler : ActionHandlerBase<ObtientDelegantCommand, ObtientDelegantDomainCommand, List<Contract.Model.Delegant>>
     {
         public RéférentielDelegant _référentielDelegant { get; set; }
 
@@ -19,10 +20,10 @@ namespace Saniteau.DSP.Application.Handlers
             _référentielDelegant = référentielDelegant ?? throw new ArgumentNullException(nameof(référentielDelegant));
         }
 
-        protected override Contract.Model.Delegant Handle(ObtientDelegantDomainCommand action)
+        protected override List<Contract.Model.Delegant> Handle(ObtientDelegantDomainCommand action)
         {
-            var delegant = action.ObtientDéléguant(_référentielDelegant);
-            return DelegantMapper.Map(delegant);
+            var delegants = action.ObtientDéléguants(_référentielDelegant);
+            return delegants.Select(DelegantMapper.Map).ToList();
         }
     }
 }

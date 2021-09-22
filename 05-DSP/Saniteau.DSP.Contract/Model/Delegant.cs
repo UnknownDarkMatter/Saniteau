@@ -10,10 +10,10 @@ namespace Saniteau.DSP.Contract.Model
         public int IdDelegant { get; set; }
         public string Nom { get; set; }
         public string Adresse { get; set; }
-        public Date DateContrat { get; set; }
+        public DateTime DateContrat { get; set; }
 
         public Delegant() { }
-        public Delegant(int idDelegant, string nom, string adresse, Date dateContrat)
+        public Delegant(int idDelegant, string nom, string adresse, DateTime dateContrat)
         {
             IdDelegant = idDelegant;
             Nom = nom;
