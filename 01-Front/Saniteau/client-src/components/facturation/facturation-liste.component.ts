@@ -140,9 +140,10 @@ export class FacturationListeComponent implements OnInit {
                 this.errorMessage = requestResponse.errorMessage;
                 return;
             }
-            dialogRef.close();
-            //this.snackBar.open('Le paiement a réussi', '', { duration: 3000 });
-            this.router.navigate(['paiement-success']);
+            this.getFacturations();
+            dialogRef.close();//TODO: la popup ne se ferme pas toujours
+            this.snackBar.open('Le paiement a réussi', '', { duration: 3000 });
+            //this.router.navigate(['paiement-success']);
         }, error => {
             dialogRef.close();
             this.snackBar.open('Erreur ' + error.status + ' : ' + error.statusText, '', { duration: 3000 });

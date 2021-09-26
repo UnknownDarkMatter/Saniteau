@@ -20,7 +20,7 @@
     <mat-card>
         <div class="main-page-card-wrapper">
             <mat-form-field class="compteur-chip-list">
-                <mat-label>Requerche</mat-label>
+                <mat-label>Recherche</mat-label>
                 <mat-chip-list #chipList aria-label="Recherche">
                     <mat-chip *ngFor="let critereRecherche of criteresRecherche" [selectable]="critereRechercheSelectable"
                               [removable]="critereRechercheRemovable" (removed)="removeCritereRecherche(critereRecherche)">
